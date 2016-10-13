@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "main.js",
   "scripts": {
-    "electron": ".\\node_moduels\\.bin\\electron ."
+    "electron": "./node_modules/.bin/electron ."
   },
   "devDependencies": {
     "babel-cli": "^6.7.7",
@@ -20,5 +20,8 @@
     "gulp-util": "^3.0.7",
     "react": "^15.0.2",
     "react-dom": "^15.0.2"
+  },
+  "dependencies": {
+    "electron": "^1.4.3"
   }
 }
