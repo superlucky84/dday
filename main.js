@@ -11,9 +11,9 @@ function createWindow () {
     width: 500,
     height: 250,
     transparent: true,
-    frame: false,
+    /*frame: false,*/
     toolbar: false,
-    alwaysOnTop: true
+    /*alwaysOnTop: true*/
   });
   /*
   let child = new BrowserWindow({

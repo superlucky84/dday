@@ -3,20 +3,48 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 <style>
 html,body {
   -webkit-app-region: drag;
 }
 body {
-  background-color: green;
+  /*background-color: green;*/
 }
 </style>
 
   </head>
   <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div id="dday"></div>
+
+
+  <script src="dist/app.js"></script>
+  <script>
+    var firebase = require('firebase');
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCnKwawx2-QOisno-1kXG4tBSBpyzxC-wQ",
+      authDomain: "dday-d3a16.firebaseapp.com",
+      databaseURL: "https://dday-d3a16.firebaseio.com",
+      storageBucket: "",
+      messagingSenderId: "886570766098"
+    };
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+    /*
+    database.ref('users/superlucky84/dday').push({
+      targetDate: 'targetDate',
+      message: 'message'
+    });
+    */
+
+    database.ref('users/superlucky84/dday').on('value', function(snapshot) {
+      console.log(snapshot.val());
+    });
+
+
+  </script>
   </body>
 </html>
