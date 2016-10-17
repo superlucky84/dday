@@ -16,13 +16,13 @@ module.exports = {
     "plugins": [
         "react"
     ],
-
     "globals": {
       "__dirname": false,
       "process": true
     },
     "rules": {
       "react/jsx-uses-vars": 1,
+      "react/jsx-uses-react": "error",
       "indent": [
         "error",
         2
