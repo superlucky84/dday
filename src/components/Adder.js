@@ -23,6 +23,7 @@ export default class Adder extends Component {
           style={{borderBottom: "1px solid #cdcdcd"}}
           primaryText="지구 명말까지"
           secondaryText="Change your Google+ profile photo"
+          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-right" ><i className="material-icons">mode_edit</i></IconButton>}
         />
 
         <ListItem 
@@ -34,13 +35,8 @@ export default class Adder extends Component {
               I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
             </p>
           }
-          rightIconButton={<IconButton
-                            tooltip="bottom-right"
-                            tooltipPosition="bottom-right"
-                          ><i className="material-icons">mode_edit</i></IconButton>}
+          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-right" ><i className="material-icons">mode_edit</i></IconButton>}
         />
-
-        
 
 
         <ListItem 
@@ -52,6 +48,7 @@ export default class Adder extends Component {
               I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
             </p>
           }
+          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-right" ><i className="material-icons">mode_edit</i></IconButton>}
         />
       </List>
     )
