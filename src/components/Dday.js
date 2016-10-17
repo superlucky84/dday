@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import  {Component} from 'react';
 
 import Adder from './Adder.js';
 
 export default class Dday extends Component {
 
-  constructor(props,children) {
+  constructor(props) {
     super(props);
     /*
      - APP
@@ -20,6 +20,6 @@ export default class Dday extends Component {
       <div>
         <Adder />
       </div>
-    )
+    );
   }
 }

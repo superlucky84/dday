@@ -1,14 +1,15 @@
 module.exports = {
     "env": {
-        "browser": true,
-        "commonjs": true,
-        "es6": true
+      "browser": true,
+      "commonjs": true,
+      "es6": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
       "ecmaFeatures": {
-          "experimentalObjectRestSpread": true,
-          "jsx": true
+        "experimentalObjectRestSpread": true,
+        "jsx": true,
+        "modules": true
       },
       "sourceType": "module"
     },
@@ -21,14 +22,17 @@ module.exports = {
       "process": true
     },
     "rules": {
+      "react/jsx-uses-vars": 1,
       "indent": [
         "error",
         2
       ],
+      /*
       "linebreak-style": [
         "error",
         "unix"
       ],
+      */
       "quotes": [
         "error",
         "single"
