@@ -6,6 +6,7 @@ import {List, ListItem} from 'material-ui/List';
 
 
 import IconButton from 'material-ui/IconButton';
+import Toggle from 'material-ui/Toggle';
 
 
 
@@ -23,7 +24,8 @@ export default class Adder extends Component {
           style={{borderBottom: "1px solid #cdcdcd"}}
           primaryText="지구 명말까지"
           secondaryText="Change your Google+ profile photo"
-          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-right" ><i className="material-icons">mode_edit</i></IconButton>}
+          rightToggle={<Toggle />}
+
         />
 
         <ListItem 
@@ -35,7 +37,7 @@ export default class Adder extends Component {
               I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
             </p>
           }
-          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-right" ><i className="material-icons">mode_edit</i></IconButton>}
+          rightToggle={<Toggle />}
         />
 
 
@@ -48,7 +50,7 @@ export default class Adder extends Component {
               I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
             </p>
           }
-          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-right" ><i className="material-icons">mode_edit</i></IconButton>}
+          rightIconButton={<IconButton tooltip="bottom-left" tooltipPosition="bottom-left" ><i className="material-icons">mode_edit</i></IconButton>}
         />
       </List>
     )
