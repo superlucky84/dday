@@ -1,6 +1,7 @@
 import  React,{Component} from 'react';
 
 import Adder from './Adder.js';
+import View from './View.js';
 
 export default class Dday extends Component {
 
@@ -13,12 +14,31 @@ export default class Dday extends Component {
          - AdderWriter 
        - View
     */
+
+
+    this.state = {
+      power: true,
+    };
+
+  }
+
+  handlePowerClick() {
+    console.log("ONPOWER");
+
+    this.setState({power: true});
   }
 
   render() {
     return (
       <div>
-        <Adder />
+        {
+          (this.state.power)?
+          <View />
+          :
+          <Adder 
+            onPower={this.handlePowerClick.bind(this)}
+          />
+        }
       </div>
     );
   }

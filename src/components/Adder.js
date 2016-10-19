@@ -9,6 +9,7 @@ import IconButton from 'material-ui/IconButton';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentPower from 'material-ui/svg-icons/action/power-settings-new';
 import Dialog from 'material-ui/Dialog';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
@@ -17,11 +18,18 @@ import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 
-const style = {
+const addStyle = {
   position: 'absolute',
   bottom: '0px',
   margin: '27px',
   right: '0px'
+};
+
+const powerStyle = {
+  position: 'absolute',
+  bottom: '0px',
+  margin: '27px',
+  right: '50px'
 };
 
 
@@ -77,8 +85,9 @@ export default class Adder extends Component {
   handleAddClick() {
     this.setState({open: true});
   }
-
-
+  handlePowerClick() {
+    this.props.onPower();
+  }
   handleClose() {
     this.setState({open: false});
   };
@@ -202,10 +211,16 @@ export default class Adder extends Component {
       }
       </List>
 
-      <FloatingActionButton mini={true} style={style}
+      <FloatingActionButton mini={true} style={addStyle}
         onClick={this.handleAddClick.bind(this)}
       >
         <ContentAdd />
+      </FloatingActionButton>
+
+      <FloatingActionButton mini={true} secondary={true} style={powerStyle}
+        onClick={this.handlePowerClick.bind(this)}
+      >
+        <ContentPower />
       </FloatingActionButton>
 
       <Dialog
