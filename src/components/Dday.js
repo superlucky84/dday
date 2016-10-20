@@ -17,7 +17,7 @@ export default class Dday extends Component {
 
 
     this.state = {
-      power: true,
+      power: true
     };
 
   }
