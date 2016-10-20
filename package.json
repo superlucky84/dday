@@ -5,6 +5,16 @@
   "scripts": {
     "electron": "./node_modules/.bin/electron ."
   },
+  "dependencies": {
+    "electron": "^1.4.4",
+    "firebase": "^3.5.1",
+    "material-ui": "^0.16.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-motion": "^0.4.5",
+    "react-swipeable-views": "^0.7.10",
+    "react-tap-event-plugin": "^1.0.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
@@ -19,15 +29,5 @@
     "gulp-babel": "^6.1.2",
     "gulp-util": "^3.0.7",
     "webpack": "^1.13.2"
-  },
-  "dependencies": {
-    "electron": "^1.4.3",
-    "firebase": "^3.5.0",
-    "material-ui": "^0.16.0",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "react-motion": "^0.4.5",
-    "react-swipeable-views": "^0.7.10",
-    "react-tap-event-plugin": "^1.0.0"
   }
 }

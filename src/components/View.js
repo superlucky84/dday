@@ -59,6 +59,7 @@ export default class View extends Component {
 
     return (
       <div>
+
         <AutoPlaySwipeableViews autoplay={false} index={this.state.page} >
           <div style={Object.assign({}, styles.slide, styles.slide1)}>
             slide n°1
@@ -70,6 +71,7 @@ export default class View extends Component {
             slide n°3
           </div>
         </AutoPlaySwipeableViews>
+
         <button onClick={this.changePage.bind(this)}>aa</button>
       </div>
     )
