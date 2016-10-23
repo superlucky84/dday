@@ -1,15 +1,9 @@
 import React,{Component} from 'react';
 
-//import AdderItem from './AdderItem.js';
-
 import {List, ListItem} from 'material-ui/List';
-
-
 import IconButton from 'material-ui/IconButton';
-
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import ContentPower from 'material-ui/svg-icons/action/power-settings-new';
 import Dialog from 'material-ui/Dialog';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
@@ -17,28 +11,18 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-
 const addStyle = {
-  position: 'absolute',
-  bottom: '0px',
-  margin: '27px',
-  right: '0px'
-};
-
-const powerStyle = {
   position: 'absolute',
   bottom: '0px',
   margin: '27px',
   right: '50px'
 };
 
-
-
 export default class Adder extends Component {
 
   constructor(props,children) {
-    super(props);
 
+    super(props);
     this.state = {
       open: false,
       alertOpen: false,
@@ -48,45 +32,16 @@ export default class Adder extends Component {
       writeTitleRequire: false,
       writeDateRequire: false,
       writeTimeRequire: false,
-      writeType: 'primary',
-      ddayList: {}
+      writeType: 'primary'
     };
     this.deleteKey = 0;
-
-    this.database = firebase.database();
   }
 
   componentDidMount() {
-    let self = this;
-
-    this.loadList().then(function(val) {
-      console.log("DDAYLIST",self.state.ddayList);
-      Object.keys(self.state.ddayList).map(function(key,idx) {
-        console.log(key,idx);
-      });
-    }).catch(function(reason) {
-      console.log("PROMISE ERROR"+reason);
-    });
-  }
-
-  loadList() {
-
-    let self = this;
-
-    return new Promise(function (resolve,reject) {
-      self.database.ref('users/superlucky84/dday').on('value', function(snapshot) {
-        self.setState({ddayList: snapshot.val()});
-        resolve();
-      });
-    });
-
   }
 
   handleAddClick() {
     this.setState({open: true});
-  }
-  handlePowerClick() {
-    this.props.onPower();
   }
   handleClose() {
     this.setState({open: false});
@@ -94,8 +49,9 @@ export default class Adder extends Component {
   handleAlertClose() {
     this.setState({alertOpen: false});
   };
+
   delDday() {
-    this.database.ref('users/superlucky84/dday/'+this.deleteKey).set(null);
+    this.props.onDelete(this.deleteKey);
     this.handleAlertClose();
   }
 
@@ -117,7 +73,7 @@ export default class Adder extends Component {
 
     // 저장 시키자
     if (save) {
-      this.database.ref('users/superlucky84/dday').push({
+      this.props.onSave({
         title: this.state.writeTitle,
         date: this.state.writeDate,
         time: this.state.writeTime,
@@ -188,15 +144,15 @@ export default class Adder extends Component {
 
 
     return (
-      <div>
+      <div className="adder">
       <List>
       {
-        Object.keys(this.state.ddayList).map((key,idx) => (
+        Object.keys(this.props.ddayList).map((key,idx) => (
           <ListItem 
             key={key}
             style={{borderBottom: "1px solid #cdcdcd"}}
-            primaryText={this.state.ddayList[key].title}
-            secondaryText={this.state.ddayList[key].date+' '+this.state.ddayList[key].time}
+            primaryText={this.props.ddayList[key].title}
+            secondaryText={this.props.ddayList[key].date+' '+this.props.ddayList[key].time}
             rightIconButton={
               <IconButton 
                 tooltip="bottom-left" 
@@ -217,11 +173,6 @@ export default class Adder extends Component {
         <ContentAdd />
       </FloatingActionButton>
 
-      <FloatingActionButton mini={true} secondary={true} style={powerStyle}
-        onClick={this.handlePowerClick.bind(this)}
-      >
-        <ContentPower />
-      </FloatingActionButton>
 
       <Dialog
           title="ADD DDAY"
@@ -302,7 +253,6 @@ export default class Adder extends Component {
       >
         DELETE OK?
       </Dialog>
-
       </div>
     )
   }

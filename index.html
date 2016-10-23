@@ -6,16 +6,23 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
 <style>
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+
 html,body {
-  /* -webkit-app-region: drag; */
+  -webkit-app-region: drag;
 }
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Nanum Pen Script', serif;
   /*background-color: green;*/
 }
 div {
   box-sizing: border-box;
+}
+.adder {
+  background-color: #fff;
 }
 </style>
 
@@ -26,6 +33,8 @@ div {
 
   <script>
     var firebase = require('firebase');
+    const {ipcRenderer} = require('electron');
+
     // Initialize Firebase
     var config = {
       apiKey: "AIzaSyCnKwawx2-QOisno-1kXG4tBSBpyzxC-wQ",

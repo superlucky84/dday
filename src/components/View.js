@@ -15,6 +15,8 @@ import SwipeableViews from 'react-swipeable-views';
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
+import ViewItem from './ViewItem.js';
+
 
 
 const styles = {
@@ -35,7 +37,6 @@ const styles = {
 };
 
 
-
 export default class View extends Component {
 
   constructor(props,children) {
@@ -48,11 +49,15 @@ export default class View extends Component {
   componentDidMount() {
   }
 
-  changePage() {
+  changePage(idx) {
 
-    this.setState({page: 1});
+    this.setState({page: idx});
 
   }
+
+  componentDidMount() {
+  }
+
 
 
   render() {
@@ -61,18 +66,25 @@ export default class View extends Component {
       <div>
 
         <AutoPlaySwipeableViews autoplay={false} index={this.state.page} >
-          <div style={Object.assign({}, styles.slide, styles.slide1)}>
-            slide n°1
-          </div>
-          <div style={Object.assign({}, styles.slide, styles.slide2)}>
-            slide n°2
-          </div>
-          <div style={Object.assign({}, styles.slide, styles.slide3)}>
-            slide n°3
-          </div>
+          {
+            Object.keys(this.props.ddayList).map((key,idx) => (
+              <ViewItem
+                key={key}
+                title={this.props.ddayList[key].title}
+                date={this.props.ddayList[key].date}
+                time={this.props.ddayList[key].time}
+                type={this.props.ddayList[key].type}
+              />
+            ))
+          }
         </AutoPlaySwipeableViews>
 
-        <button onClick={this.changePage.bind(this)}>aa</button>
+        {
+          Object.keys(this.props.ddayList).map((key,idx) => (
+            <button key={key} onClick={this.changePage.bind(this,idx)}>{idx}</button>
+          ))
+        }
+
       </div>
     )
   }
