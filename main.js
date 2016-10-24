@@ -11,7 +11,7 @@ function createWindow () {
   win = new BrowserWindow({
     width: 570,
     height: 590,
-    resizable: false,
+    resizable: true,
     frame: true,
     toolbar: false
   });
@@ -25,9 +25,11 @@ function createWindow () {
 
 
   viewWin = new BrowserWindow({
-    width: 480,
+    width: 500,
     height: 123,
-    resizable: true,
+    //width: 500,
+    //height: 500,
+    resizable: false,
     transparent: true,
     frame: false,
     toolbar: false,
@@ -53,9 +55,9 @@ function changeWindow (aa,target) {
 
 
 function closeApp() {
-  if (process.platform !== 'darwin') {
+  //if (process.platform !== 'darwin') {
     app.quit();
-  }
+  //}
 }
 function onTop() {
 

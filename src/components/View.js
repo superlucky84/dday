@@ -100,14 +100,16 @@ export default class View extends Component {
             ))
           }
         </AutoPlaySwipeableViews>
+        <div className="dragarea">
+        </div>
 
         <div 
           className="footer-toggle"
         >
           <button
-            style={{opacity: (this.state.focus)?"1":"0.5"}}
+            style={{border: (this.state.focus)?"1px solid #fff":"0px"}}
             onClick={this.handleToggleMenu.bind(this)}
-          >{(this.state.focus)?"-":"<"}</button>
+          >{(this.state.focus)?"-":">"}</button>
 
         </div>
 

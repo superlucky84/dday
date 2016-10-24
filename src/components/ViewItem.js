@@ -116,7 +116,7 @@ export default class ViewItem extends Component {
       <div 
         style={{
           color: this.state.color,
-          padding: "0 15px 0 15px",
+          padding: "15px 0 0 15px",
           minHeight: "100px",
           fontSize: "2.8em",
           backgroundColor: "transparent"

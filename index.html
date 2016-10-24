@@ -3,15 +3,14 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <style>
 
       @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
       html,body {
-        /*-webkit-app-region: drag;*/
-         -webkit-user-select: none;
+       /*-webkit-app-region: drag;*/
+       -webkit-user-select: none;
       }
       body {
         margin: 0;
@@ -27,21 +26,27 @@
       }
 
 
+      .dragarea {
+        -webkit-app-region: drag;
+        position: absolute;
+        top: 22px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
       .footer {
         position: absolute;
-        bottom: 0px;
-        right: 20px;
+        top: 0px;
+        left: 20px;
         /* left: 0; */
         /* bottom: 0; */
       }
 
       .footer-toggle {
         position: absolute;
-        bottom: 0px;
-        right: 0;
-      }
-      .footer-toggle button {
-        cursor: pointer;
+        top: 0px;
+        left: 0;
       }
 
 
@@ -55,12 +60,15 @@
         width: 16px;
         height: 16px;
         outline: none;
+        padding: 0 2px 2px 2px;
       }
 
-      .slider {
-
-        -webkit-app-region: drag;
-        /*-webkit-app-region: drag;*/
+      .footer-toggle button {
+        cursor: pointer;
+        background-color: transparent;
+        color: #cdcdcd;
+        border: 1px solid brown;
+        opacity: 0.5;
       }
 
 
@@ -84,6 +92,16 @@
       messagingSenderId: "886570766098"
     };
     firebase.initializeApp(config);
+
+    /*
+    window.onunload = function() { 
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+      }, function(error) {
+        // An error happened.
+      });
+    }
+    */
   </script>
   <script src="dist/app.js"></script>
   </body>
