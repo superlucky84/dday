@@ -1,17 +1,8 @@
 import  React,{Component} from 'react';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentPower from 'material-ui/svg-icons/action/power-settings-new';
-
 import Adder from './Adder.js';
 import View from './View.js';
 
-const powerStyle = {
-  position: 'absolute',
-  bottom: '0px',
-  margin: '27px',
-  right: '0px'
-};
 
 
 export default class Dday extends Component {
@@ -20,7 +11,6 @@ export default class Dday extends Component {
     super(props);
 
     this.state = {
-      power: false,
       ddayList: {}
     };
     this.database = firebase.database();
@@ -49,23 +39,15 @@ export default class Dday extends Component {
   }
 
 
-  handlePowerClick() {
-
-    let power = true;
-    if (this.state.power) {
-      power = false;
-    }
-    this.setState({power});
-  }
-
   render() {
 
 
     return (
       <div>
         {
-          (this.state.power)?
+          (windowType=='view')?
           <View 
+            className="view"
             ddayList={this.state.ddayList}
           />
           :
@@ -76,11 +58,6 @@ export default class Dday extends Component {
           />
         }
 
-        <FloatingActionButton mini={true} secondary={true} style={powerStyle}
-          onClick={this.handlePowerClick.bind(this)}
-        >
-          <ContentPower />
-        </FloatingActionButton>
       </div>
     );
   }

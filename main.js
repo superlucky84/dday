@@ -4,63 +4,82 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 // be closed automatically when the JavaScript object is garbage collected.
 
 let win;
+let viewWin;
 
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 500,
-    height: 250,
-    resizable: true,
-    /*transparent: true,
-    frame: false,*/
-    toolbar: false,
-    /*alwaysOnTop: true*/
+    width: 570,
+    height: 590,
+    resizable: false,
+    frame: true,
+    toolbar: false
   });
-  /*
-  let child = new BrowserWindow({
-    'width': 800, 
-    'height': 600
-  })
-  */
 
-  // and load the index.html of the app.
-  win.loadURL(`file://${__dirname}/index.html`);
+  win.loadURL(`file://${__dirname}/index.html?type=add`);
+  //win.webContents.openDevTools();
 
-  // Open the DevTools.
-  win.webContents.openDevTools();
-
-  // Emitted when the window is closed.
   win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     win = null;
   });
+
+
+  viewWin = new BrowserWindow({
+    width: 480,
+    height: 123,
+    resizable: true,
+    transparent: true,
+    frame: false,
+    toolbar: false,
+    show: false
+  });
+
+  viewWin.loadURL(`file://${__dirname}/index.html?type=view`);
+  //viewWin.webContents.openDevTools();
+
 }
 
-function optionChange(puhaha,aa) {
-  console.log(puhaha,aa);
+function changeWindow (aa,target) {
 
+  if (target == 'view') {
+    win.hide();
+    viewWin.show();
+  }
+  else {
+    win.show();
+    viewWin.hide();
+  }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+
+function closeApp() {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+}
+function onTop() {
+
+  if (viewWin.isAlwaysOnTop()) {
+    viewWin.setAlwaysOnTop(false);
+  }
+  else {
+    viewWin.setAlwaysOnTop(true);
+  }
+}
+
+ipcMain.on('changeWindow', changeWindow);
+ipcMain.on('closeApp', closeApp);
+ipcMain.on('onTop', onTop);
+
 app.on('ready', createWindow);
-ipcMain.on('optionChange', optionChange);
 
-// Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow();
   }

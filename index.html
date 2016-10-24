@@ -3,28 +3,68 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-<style>
+      <style>
 
-@import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+      @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
-html,body {
-  -webkit-app-region: drag;
-}
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Nanum Pen Script', serif;
-  /*background-color: green;*/
-}
-div {
-  box-sizing: border-box;
-}
-.adder {
-  background-color: #fff;
-}
-</style>
+      html,body {
+        /*-webkit-app-region: drag;*/
+         -webkit-user-select: none;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nanum Pen Script', serif;
+        /*background-color: green;*/
+      }
+      div {
+        box-sizing: border-box;
+      }
+      .adder {
+        background-color: #fff;
+      }
+
+
+      .footer {
+        position: absolute;
+        bottom: 0px;
+        right: 20px;
+        /* left: 0; */
+        /* bottom: 0; */
+      }
+
+      .footer-toggle {
+        position: absolute;
+        bottom: 0px;
+        right: 0;
+      }
+      .footer-toggle button {
+        cursor: pointer;
+      }
+
+
+      .footer-toggle button ,
+      .footer button {
+        background-color: #8989ff;
+        border-radius: 100%;
+        margin: 2px;
+        color: #fff;
+        border: 0;
+        width: 16px;
+        height: 16px;
+        outline: none;
+      }
+
+      .slider {
+
+        -webkit-app-region: drag;
+        /*-webkit-app-region: drag;*/
+      }
+
+
+      </style>
 
   </head>
   <body>
@@ -32,11 +72,11 @@ div {
 
 
   <script>
-    var firebase = require('firebase');
-    const {ipcRenderer} = require('electron');
 
-    // Initialize Firebase
-    var config = {
+    const firebase = require('firebase');
+    const {ipcRenderer} = require('electron');
+    const windowType = (location.search.match(/view$/))?'view':'add';
+    const config = {
       apiKey: "AIzaSyCnKwawx2-QOisno-1kXG4tBSBpyzxC-wQ",
       authDomain: "dday-d3a16.firebaseapp.com",
       databaseURL: "https://dday-d3a16.firebaseio.com",
@@ -44,19 +84,6 @@ div {
       messagingSenderId: "886570766098"
     };
     firebase.initializeApp(config);
-
-    /*
-    var database = firebase.database();
-    database.ref('users/superlucky84/dday').push({
-      targetDate: 'targetDate',
-      message: 'message'
-    });
-
-    database.ref('users/superlucky84/dday').on('value', function(snapshot) {
-      console.log(snapshot.val());
-    });
-
-    */
   </script>
   <script src="dist/app.js"></script>
   </body>

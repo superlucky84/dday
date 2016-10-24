@@ -42,30 +42,52 @@ export default class View extends Component {
   constructor(props,children) {
     super(props);
     this.state = {
-      page: 0
+      page: 0,
+      ontop: false,
+      focus: false
     };
   }
 
   componentDidMount() {
   }
-
   changePage(idx) {
-
     this.setState({page: idx});
-
+  }
+  closeApp() {
+    ipcRenderer.send('closeApp',{});
+  }
+  handlePowerClick() {
+    ipcRenderer.send('changeWindow','adder');
+  }
+  handleOnTop() {
+    ipcRenderer.send('onTop','top');
+    let ontop = true;
+    if (this.state.ontop) {
+      ontop = false;
+    }
+    this.setState({ontop});
   }
 
+  handleToggleMenu() {
+    let focus = true;
+    if (this.state.focus) {
+      focus = false;
+    }
+    this.setState({focus});
+  }
   componentDidMount() {
   }
-
 
 
   render() {
 
     return (
       <div>
-
-        <AutoPlaySwipeableViews autoplay={false} index={this.state.page} >
+        <AutoPlaySwipeableViews 
+          autoplay={false} 
+          index={this.state.page} 
+          className="slider"
+        >
           {
             Object.keys(this.props.ddayList).map((key,idx) => (
               <ViewItem
@@ -79,11 +101,41 @@ export default class View extends Component {
           }
         </AutoPlaySwipeableViews>
 
-        {
-          Object.keys(this.props.ddayList).map((key,idx) => (
-            <button key={key} onClick={this.changePage.bind(this,idx)}>{idx}</button>
-          ))
-        }
+        <div 
+          className="footer-toggle"
+        >
+          <button
+            style={{opacity: (this.state.focus)?"1":"0.5"}}
+            onClick={this.handleToggleMenu.bind(this)}
+          >{(this.state.focus)?"-":"<"}</button>
+
+        </div>
+
+        <div 
+          className="footer"
+          style={{display: (this.state.focus)?'block':'none'}}
+        >
+          {
+            Object.keys(this.props.ddayList).map((key,idx) => (
+              <button 
+                key={key} 
+                style={{backgroundColor: (idx == this.state.page)?'red':'#8989ff'}}
+                onClick={this.changePage.bind(this,idx)}>{idx}
+              </button>
+            ))
+          }
+          &nbsp;
+          <button
+            style={{backgroundColor: (this.state.ontop)?'red':'#8989ff'}}
+            onClick={this.handleOnTop.bind(this)}
+          >f</button>
+          <button
+            onClick={this.handlePowerClick.bind(this)}
+          >o</button>
+          <button
+            onClick={this.closeApp.bind(this)}
+          >x</button>
+        </div>
 
       </div>
     )

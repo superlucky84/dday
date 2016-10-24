@@ -4,6 +4,8 @@ import {List, ListItem} from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import ContentPower from 'material-ui/svg-icons/action/power-settings-new';
+
 import Dialog from 'material-ui/Dialog';
 import DatePicker from 'material-ui/DatePicker';
 import TimePicker from 'material-ui/TimePicker';
@@ -16,6 +18,13 @@ const addStyle = {
   bottom: '0px',
   margin: '27px',
   right: '50px'
+};
+
+const powerStyle = {
+  position: 'absolute',
+  bottom: '0px',
+  margin: '27px',
+  right: '0px'
 };
 
 export default class Adder extends Component {
@@ -116,8 +125,11 @@ export default class Adder extends Component {
     this.setState({alertOpen: true});
   }
 
-  render() {
+  handlePowerClick() {
+    ipcRenderer.send('changeWindow','view');
+  }
 
+  render() {
 
    const actions = [
       <FlatButton
@@ -171,6 +183,12 @@ export default class Adder extends Component {
         onClick={this.handleAddClick.bind(this)}
       >
         <ContentAdd />
+      </FloatingActionButton>
+
+      <FloatingActionButton mini={true} secondary={true} style={powerStyle}
+        onClick={this.handlePowerClick.bind(this)}
+      >
+        <ContentPower />
       </FloatingActionButton>
 
 
