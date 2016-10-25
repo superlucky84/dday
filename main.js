@@ -25,8 +25,8 @@ function createWindow () {
 
 
   viewWin = new BrowserWindow({
-    width: 500,
-    height: 123,
+    width: 565,
+    height: 50,
     //width: 500,
     //height: 500,
     resizable: false,

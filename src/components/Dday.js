@@ -67,7 +67,6 @@ export default class Dday extends Component {
 
   loginChk() {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user.email);
       if (user == null) {
         this.setState({login: false});
       }

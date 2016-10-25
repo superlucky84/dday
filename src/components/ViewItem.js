@@ -66,7 +66,7 @@ export default class ViewItem extends Component {
     }
 
     this.setState({
-      recycle : `${recycle} 주년 까지`
+      recycle : `${recycle} 주년 까지! `
     });
 
     this.remain(target);
@@ -118,14 +118,13 @@ export default class ViewItem extends Component {
           color: this.state.color,
           padding: "15px 0 0 15px",
           minHeight: "100px",
-          fontSize: "2.8em",
+          fontSize: "2.0em",
           backgroundColor: "transparent"
         }}
       >
 
         {this.props.title}&nbsp;
-        {this.state.recycle}!
-        <br/>
+        {this.state.recycle}
         {this.state.leftString}
       </div>
     )
