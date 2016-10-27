@@ -93,13 +93,6 @@
     };
     firebase.initializeApp(config);
 
-    window.onunload = function() { 
-      firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-      }, function(error) {
-        // An error happened.
-      });
-    }
   </script>
   <script src="dist/app.js"></script>
   </body>

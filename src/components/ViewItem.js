@@ -124,7 +124,7 @@ export default class ViewItem extends Component {
       >
 
         {this.props.title}&nbsp;
-        {this.state.recycle}
+        {this.state.recycle}<br />
         {this.state.leftString}
       </div>
     )

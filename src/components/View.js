@@ -75,7 +75,33 @@ export default class View extends Component {
     }
     this.setState({focus});
   }
+
+
+  componentDidUpdate(props) {
+    if (Object.keys(props.ddayList).length != Object.keys(this.props.ddayList).length) {
+      this.totalDdayCount = Object.keys(this.props.ddayList).length;
+    }
+  }
+
   componentDidMount() {
+
+    let page = this.state.page;
+    document.body.addEventListener('keydown',function(event) {
+      if (event.keyCode == 37) {
+        page--;
+        if (page < 0) {
+          page = this.totalDdayCount - 1;
+        }
+        this.setState({page});
+      }
+      else if (event.keyCode == 39) {
+        page++;
+        if (page+1 > this.totalDdayCount) {
+          page = 0;
+        }
+        this.setState({page});
+      }
+    }.bind(this));
   }
 
 

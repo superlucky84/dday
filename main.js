@@ -11,7 +11,7 @@ function createWindow () {
   win = new BrowserWindow({
     width: 570,
     height: 590,
-    resizable: true,
+    resizable: false,
     frame: true,
     toolbar: false
   });
@@ -25,11 +25,9 @@ function createWindow () {
 
 
   viewWin = new BrowserWindow({
-    width: 565,
-    height: 55,
-    //width: 500,
-    //height: 500,
-    resizable: true,
+    width: 500,
+    height: 100,
+    resizable: false,
     transparent: true,
     frame: false,
     toolbar: false,

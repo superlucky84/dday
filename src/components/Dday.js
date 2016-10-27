@@ -18,50 +18,13 @@ export default class Dday extends Component {
       login: true,
       id: '',
       password: '',
-      ddayList: {}
+      idError: false,
+      passwordError: false,
+      ddayList: {'empty': {title:'',type:''}}
     };
 
     this.database = firebase.database();
-
     this.loginChk();
-
-
-    /*
-    firebase.auth().createUserWithEmailAndPassword("superlucky84@gmail.com", "jinw1121").catch(function(error) {
-      console.log(error);
-
-      if (error.code == 'auth/email-already-in-use') {
-        // 에러처리
-      }
-      else {
-        this.setState({login: true});
-      }
-
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-    });
-    */
-
-    /*
-    firebase.auth().signInWithEmailAndPassword("superlucky84@gmail.com", "jinw1121").catch(function(error) {
-      console.log('error');
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-});
-*/
-
-
-    /*
-    firebase.auth().signOut().then(function() {
-      // Sign-out successful.
-    }, function(error) {
-      // An error happened.
-    });
-    */
-
 
   }
 
@@ -71,7 +34,6 @@ export default class Dday extends Component {
         this.setState({login: false});
       }
       else {
-        console.log('loadlist');
         this.setState({login: true, id: user.email});
         this.loadList();
       }
@@ -83,7 +45,6 @@ export default class Dday extends Component {
 
   loadList() {
     this.database.ref(`users/${this.state.id.replace(/\./g,'|')}/dday`).on('value', (snapshot) => {
-      console.log(snapshot.val());
       if (snapshot.val()) {
         this.setState({ddayList: snapshot.val()});
       }
@@ -99,12 +60,45 @@ export default class Dday extends Component {
   }
 
   handleLogin() {
-    console.log('HANDLELOGINB');
-    firebase.auth().signInWithEmailAndPassword(this.state.id, this.state.password).catch((error) => {
-      console.log(error);
-      this.setState({login: false});
+
+    firebase.auth().signInWithEmailAndPassword(this.state.id, this.state.password).
+      catch((error) => {
+        console.log(error);
+        if (error.code.match(/email|user/)) {
+          this.setState({login: false, idError: error.message});
+          this.errortext = "kkk";
+        }
+        else if (error.code.match(/password/)) {
+          this.setState({login: false, passwordError: error.message});
+        }
+
     });
-      //this.loginChk();
+  }
+
+  handleJoin() {
+
+
+    firebase.auth().createUserWithEmailAndPassword(this.state.id, this.state.password)
+      .catch((error) => {
+        if (error.code.match(/email|user/)) {
+          this.setState({login: false, idError: error.message});
+        }
+        else if (error.code.match(/password/)) {
+          this.setState({login: false, passwordError: error.message});
+        }
+
+    });
+
+
+    /*
+    firebase.auth().currentUser.sendEmailVerification().then(function() {
+      // Email Verification sent!
+      // [START_EXCLUDE]
+      alert('Email Verification Sent!');
+      // [END_EXCLUDE]
+    });
+    */
+
   }
 
   handleWriteId(event) {
@@ -114,6 +108,12 @@ export default class Dday extends Component {
   handleWritePassword(event) {
     this.setState({password: event.target.value});
   }
+  handleIdFocus() {
+    this.setState({idError: false});
+  }
+  handlePasswordFocus() {
+    this.setState({passwordError: false});
+  }
 
 
   render() {
@@ -121,25 +121,50 @@ export default class Dday extends Component {
     let DDAY = null;
     if (this.state.login === false) {
       DDAY = <div style={{padding: "70px", textAlign: 'center'}}>
-              <TextField
-                style={{width: '100%'}}
-                hintText="Hint Text"
-                floatingLabelText="LOGIN ID"
-                onChange={this.handleWriteId.bind(this)}
+              {
+                (this.state.idError === false)?
+                  <TextField
+                    style={{width: '100%'}}
+                    hintText="Hint Text"
+                    floatingLabelText="LOGIN ID"
+                    onChange={this.handleWriteId.bind(this)} />
+                  :
+                  <TextField
+                    style={{width: '100%'}}
+                    hintText="Hint Text"
+                    floatingLabelText="LOGIN ID"
+                    errorText={this.state.idError}
+                    onFocus={this.handleIdFocus.bind(this)}
+                    onChange={this.handleWriteId.bind(this)} />
+              }
 
-              /><br />
-              <TextField
-                style={{width: '100%'}}
-                hintText="Password Field"
-                floatingLabelText="PASSWORD"
-                type="password"
-                onChange={this.handleWritePassword.bind(this)}
-                />
+              <br />
+              {
+                (this.state.passwordError === false)?
+                  <TextField
+                    style={{width: '100%'}}
+                    hintText="Password Field"
+                    floatingLabelText="PASSWORD"
+                    type="password"
+                    onChange={this.handleWritePassword.bind(this)}
+                    />
+                  :
+                  <TextField
+                    style={{width: '100%'}}
+                    hintText="Password Field"
+                    floatingLabelText="PASSWORD"
+                    errorText={this.state.passwordError}
+                    type="password"
+                    onFocus={this.handlePasswordFocus.bind(this)}
+                    onChange={this.handleWritePassword.bind(this)}
+                    />
+              }
                 <br />
                 <br />
 
               <RaisedButton 
                 label="SIGN UP" primary={true} 
+                onClick={this.handleJoin.bind(this)}
               />
               &nbsp;&nbsp;
               <RaisedButton 
