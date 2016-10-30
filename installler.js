@@ -1,10 +1,10 @@
 var electronInstaller = require('electron-winstaller');
 
 resultPromise = electronInstaller.createWindowsInstaller({
-    appDirectory: './dist/myApp-win32-x64',
-    outputDirectory: './dist/installer-win32-x64',
-    exe: 'myApp.exe',
-    setupExe: 'MyAppSetup.exe'
+    appDirectory: './packing/myApp-win32-x64',
+    outputDirectory: './packing/installer-win32-x64',
+    author: "superlucky84",
+    description: "dday count app"
 });
 
 resultPromise.then(function () {
