@@ -23,8 +23,6 @@ export default class ViewItem extends Component {
 
 
   componentWillUnmount() {
-    console.log('unmount');
-
     clearTimeout(this.timeout);
   }
 
@@ -119,12 +117,15 @@ export default class ViewItem extends Component {
           padding: "15px 0 0 15px",
           minHeight: "50px",
           fontSize: "2.0em",
-          backgroundColor: "transparent"
+          backgroundColor: "transparent",
+          overflow: "hidden",
+          display: "inline-block",
+          whiteSpace: "nowrap"
         }}
       >
 
         {this.props.title}&nbsp;
-        {this.state.recycle}<br />
+        {this.state.recycle}
         {this.state.leftString}
       </div>
     )

@@ -26,7 +26,7 @@ function createWindow () {
 
   viewWin = new BrowserWindow({
     width: 500,
-    height: 100,
+    height: 50,
     resizable: false,
     transparent: true,
     frame: false,
@@ -67,9 +67,14 @@ function onTop() {
   }
 }
 
+function resizeWidth(browser, width) {
+  viewWin.setSize(width,50);
+}
+
 ipcMain.on('changeWindow', changeWindow);
 ipcMain.on('closeApp', closeApp);
 ipcMain.on('onTop', onTop);
+ipcMain.on('resizeWidth', resizeWidth);
 
 app.on('ready', createWindow);
 

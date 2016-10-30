@@ -44,12 +44,12 @@ export default class View extends Component {
     this.state = {
       page: 0,
       ontop: false,
-      focus: false
+      focus: false,
+      init: false
     };
+    this.textInput= {};
   }
 
-  componentDidMount() {
-  }
   changePage(idx) {
     this.setState({page: idx});
   }
@@ -57,6 +57,7 @@ export default class View extends Component {
     ipcRenderer.send('closeApp',{});
   }
   handlePowerClick() {
+    this.setState({page: 0});
     ipcRenderer.send('changeWindow','adder');
   }
   handleOnTop() {
@@ -76,10 +77,18 @@ export default class View extends Component {
     this.setState({focus});
   }
 
+  resizeWidth() {
+    let width = ReactDOM.findDOMNode(this.textInput[this.state.page]).clientWidth+70;
+    ipcRenderer.send('resizeWidth', width);
+  }
 
-  componentDidUpdate(props) {
+
+  componentDidUpdate(props,state) {
     if (Object.keys(props.ddayList).length != Object.keys(this.props.ddayList).length) {
       this.totalDdayCount = Object.keys(this.props.ddayList).length;
+    }
+    if (!this.props.ddayList['notload']) {
+      this.resizeWidth();
     }
   }
 
@@ -102,6 +111,7 @@ export default class View extends Component {
         this.setState({page});
       }
     }.bind(this));
+
   }
 
 
@@ -118,6 +128,7 @@ export default class View extends Component {
             Object.keys(this.props.ddayList).map((key,idx) => (
               <ViewItem
                 key={key}
+                ref={(input) => this.textInput[idx] = input}
                 title={this.props.ddayList[key].title}
                 date={this.props.ddayList[key].date}
                 time={this.props.ddayList[key].time}
