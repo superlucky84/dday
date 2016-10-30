@@ -5,7 +5,7 @@
   "scripts": {
     "electron": "./node_modules/.bin/electron .",
     "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
-    "pack:win64": "electron-packager . DDAY --out=packing --platform=win32 --arch=x64 --version=0.0.1 app-version=0.0.1 --icon=assets/build/win/icon.ico",
+    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico",
     "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns JW-DDAY"
   },
   "dependencies": {
