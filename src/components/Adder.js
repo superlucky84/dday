@@ -21,21 +21,8 @@ const logoutStyle = {
   position: 'fixed',
   bottom: '0px',
   margin: '27px',
-  right: '100px'
-}
-const addStyle = {
-  position: 'fixed',
-  bottom: '0px',
-  margin: '27px',
-  right: '50px'
-};
-
-const powerStyle = {
-  position: 'fixed',
-  bottom: '0px',
-  margin: '27px',
   right: '0px'
-};
+}
 
 export default class Adder extends Component {
 
@@ -63,6 +50,7 @@ export default class Adder extends Component {
   componentDidMount() {
   }
   handleLogout() {
+    this.props.onResetState();
     firebase.auth().signOut();
   }
 
@@ -111,11 +99,11 @@ export default class Adder extends Component {
     }
 
     if (!this.state.writeDate) {
-      this.setState({ writeDateRequire: true });
+      this.setState({ writeDateRequire: 'Please Enter A Date' });
       save = false;
     }
     if (!this.state.writeTime) {
-      this.setState({ writeTimeRequire: true });
+      this.setState({ writeTimeRequire: 'Please Enter A Time' });
       save = false;
     }
 
@@ -168,7 +156,8 @@ export default class Adder extends Component {
   }
 
   componentDidUpdate(props) {
-    if (!this.props.ddayList['empty'] && props.ddayList['empty']) {
+    console.log(!this.props.ddayList['notload'],props.ddayList['notload']);
+    if (!this.props.ddayList['notload'] && props.ddayList['notload']) {
       this.setState({loading: false});
     }
   }
@@ -222,7 +211,7 @@ export default class Adder extends Component {
 
       <List>
       {
-        (!this.props.ddayList['empty']) ?
+        (!(this.props.ddayList['empty'] || this.props.ddayList['notload'])) ?
           Object.keys(this.props.ddayList).map((key,idx) => (
             <ListItem 
               key={key}
@@ -249,28 +238,41 @@ export default class Adder extends Component {
           ))
         : null
       }
+
+      {
+      (this.props.ddayList['empty']) ?
+        <div style={{textAlign: 'center', marginTop: '40%', fontSize:'70px'}}>
+         ADD DDAY
+        </div>
+        : null
+      }
       </List>
 
-      <FloatingActionButton mini={true} style={logoutStyle}
-        backgroundColor="red"
-        onClick={this.handleLogout.bind(this)}
-      >
-        <ContentPower />
-      </FloatingActionButton>
+      <div style={logoutStyle}>
+        <FloatingActionButton mini={true} style={{marginLeft: '7px'}}
+          backgroundColor="red"
+          onClick={this.handleLogout.bind(this)}
+        >
+          <ContentPower />
+        </FloatingActionButton>
 
-      <FloatingActionButton mini={true} style={addStyle}
-        backgroundColor="black"
-        onClick={this.handleAddClick.bind(this)}
-      >
-        <ContentAdd />
-      </FloatingActionButton>
+        <FloatingActionButton mini={true} style={{marginLeft: '7px'}} 
+          backgroundColor="black"
+          onClick={this.handleAddClick.bind(this)}
+        >
+          <ContentAdd />
+        </FloatingActionButton>
 
-      <FloatingActionButton mini={true}  style={powerStyle}
-        backgroundColor="green"
-        onClick={this.handlePowerClick.bind(this)}
-      >
-        <Visibility />
-      </FloatingActionButton>
+        {
+          (!(this.props.ddayList['empty'] || this.props.ddayList['notload'])) ?
+            <FloatingActionButton mini={true} style={{marginLeft: '7px'}}  
+              backgroundColor="green"
+              onClick={this.handlePowerClick.bind(this)}
+            >
+              <Visibility />
+            </FloatingActionButton> : null
+        }
+      </div>
 
 
       <Dialog
@@ -280,49 +282,26 @@ export default class Adder extends Component {
           open={this.state.open}
           onRequestClose={this.handleClose.bind(this)}
       >
-        DDAY를 입력하시오<br />
+        Please enter the dday<br />
 
-        {
-         (!this.state.writeTitleRequire)?
          <TextField
-          hintText="지구 멸망까지"
-          onChange={this.handleWriteTitle.bind(this)}
-         />
-         :
-         <TextField
-          hintText="지구 멸망까지"
+          hintText="JW BIRTHDAY"
           errorText={this.state.writeTitleRequire}
           onFocus={this.handleTitleFocus.bind(this)}
+          onChange={this.handleWriteTitle.bind(this)}
          />
-        }
-        {
-         (this.state.writeDateRequire == false)?
-          <DatePicker 
-            hintText="멸망날짜" 
-            onChange={this.handleWriteDate.bind(this)}
-          />
-          :
-          <DatePicker 
-            hintText="멸망날짜" 
-            errorText="Required"
-            onFocus={this.handleDateFocus.bind(this)}
-          />
-        }
-        {
-         (this.state.writeTimeRequire == false)?
-          <TimePicker
-            format="24hr"
-            hintText="명말시간"
-            onChange={this.handleWriteTime.bind(this)}
-          />
-          :
-          <TimePicker
-            format="24hr"
-            hintText="명말시간"
-            errorText="Required"
-            onFocus={this.handleTimeFocus.bind(this)}
-          />
-        }
+         <DatePicker 
+           hintText="1984-05-10" 
+           errorText={this.state.writeDateRequire}
+           onFocus={this.handleDateFocus.bind(this)}
+           onChange={this.handleWriteDate.bind(this)}
+         />
+         <TimePicker
+           hintText="10:10 am"
+           errorText={this.state.writeTimeRequire}
+           onFocus={this.handleTimeFocus.bind(this)}
+           onChange={this.handleWriteTime.bind(this)}
+         />
 
         <RadioButtonGroup 
           name="shipSpeed" 
@@ -337,7 +316,7 @@ export default class Adder extends Component {
           />
           <RadioButton
             value="recycle"
-            label="회년 계산"
+            label="회년계산"
             style={{marginBottom: 16, float: 'left', width: '40%'}}
           />
         </RadioButtonGroup>

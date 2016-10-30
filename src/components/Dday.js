@@ -7,6 +7,8 @@ import View from './View.js';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 
 export default class Dday extends Component {
@@ -20,7 +22,8 @@ export default class Dday extends Component {
       password: '',
       idError: false,
       passwordError: false,
-      ddayList: {'empty': {title:'',type:''}}
+      alertMessage: false,
+      ddayList: {'notload': {title:'',type:''}}
     };
 
     this.database = firebase.database();
@@ -32,6 +35,17 @@ export default class Dday extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user == null) {
         this.setState({login: false});
+      }
+
+      else if (user.emailVerified == false) {
+        firebase.auth().currentUser.sendEmailVerification().then(() => {
+          this.setState({
+            idError: false,
+            passwordError: false,
+            alertMessage: '가입 확인메일을 보냈습니다.'
+          });
+          firebase.auth().signOut();
+        });
       }
       else {
         this.setState({login: true, id: user.email});
@@ -48,11 +62,13 @@ export default class Dday extends Component {
       if (snapshot.val()) {
         this.setState({ddayList: snapshot.val()});
       }
+      else {
+        this.setState({ddayList: {'empty': {title:'',type:''}}});
+      }
     });
   }
 
   handelDdayDel(deleteKey) {
-    console.log(this.database,deleteKey);
     this.database.ref(`users/${this.state.id.replace(/\./g,'|')}/dday/`+deleteKey).set(null);
   }
   handelDdaySave(saveObj) {
@@ -61,9 +77,9 @@ export default class Dday extends Component {
 
   handleLogin() {
 
+
     firebase.auth().signInWithEmailAndPassword(this.state.id, this.state.password).
       catch((error) => {
-        console.log(error);
         if (error.code.match(/email|user/)) {
           this.setState({login: false, idError: error.message});
           this.errortext = "kkk";
@@ -77,7 +93,6 @@ export default class Dday extends Component {
 
   handleJoin() {
 
-
     firebase.auth().createUserWithEmailAndPassword(this.state.id, this.state.password)
       .catch((error) => {
         if (error.code.match(/email|user/)) {
@@ -86,25 +101,13 @@ export default class Dday extends Component {
         else if (error.code.match(/password/)) {
           this.setState({login: false, passwordError: error.message});
         }
-
     });
-
-
-    /*
-    firebase.auth().currentUser.sendEmailVerification().then(function() {
-      // Email Verification sent!
-      // [START_EXCLUDE]
-      alert('Email Verification Sent!');
-      // [END_EXCLUDE]
-    });
-    */
 
   }
 
   handleWriteId(event) {
     this.setState({id: event.target.value});
   }
-
   handleWritePassword(event) {
     this.setState({password: event.target.value});
   }
@@ -114,65 +117,68 @@ export default class Dday extends Component {
   handlePasswordFocus() {
     this.setState({passwordError: false});
   }
+  handleAlertClose() {
+    this.setState({alertMessage: false});
+  };
+  handleResetState() {
+    this.setState({
+      login: true,
+      id: '',
+      password: '',
+      idError: false,
+      passwordError: false,
+      alertMessage: false,
+      ddayList: {'notload': {title:'',type:''}}
+    });
+  }
 
 
   render() {
 
+    const alertActionOk = [
+      <FlatButton
+        label="Ok"
+        primary={true}
+        onTouchTap={this.handleAlertClose.bind(this)}
+      />
+    ];
+
+
     let DDAY = null;
     if (this.state.login === false) {
       DDAY = <div style={{padding: "70px", textAlign: 'center'}}>
-              {
-                (this.state.idError === false)?
-                  <TextField
-                    style={{width: '100%'}}
-                    hintText="Hint Text"
-                    floatingLabelText="LOGIN ID"
-                    onChange={this.handleWriteId.bind(this)} />
-                  :
-                  <TextField
-                    style={{width: '100%'}}
-                    hintText="Hint Text"
-                    floatingLabelText="LOGIN ID"
-                    errorText={this.state.idError}
-                    onFocus={this.handleIdFocus.bind(this)}
-                    onChange={this.handleWriteId.bind(this)} />
-              }
+                <TextField
+                  style={{width: '100%'}}
+                  hintText="이메일 입력"
+                  floatingLabelText="LOGIN ID"
+                  errorText={this.state.idError}
+                  onFocus={this.handleIdFocus.bind(this)}
+                  onChange={this.handleWriteId.bind(this)} />
 
-              <br />
-              {
-                (this.state.passwordError === false)?
-                  <TextField
-                    style={{width: '100%'}}
-                    hintText="Password Field"
-                    floatingLabelText="PASSWORD"
-                    type="password"
-                    onChange={this.handleWritePassword.bind(this)}
-                    />
-                  :
-                  <TextField
-                    style={{width: '100%'}}
-                    hintText="Password Field"
-                    floatingLabelText="PASSWORD"
-                    errorText={this.state.passwordError}
-                    type="password"
-                    onFocus={this.handlePasswordFocus.bind(this)}
-                    onChange={this.handleWritePassword.bind(this)}
-                    />
-              }
+                <br />
+                <TextField
+                  style={{width: '100%'}}
+                  hintText="패스워드를 입력"
+                  floatingLabelText="PASSWORD"
+                  errorText={this.state.passwordError}
+                  type="password"
+                  onFocus={this.handlePasswordFocus.bind(this)}
+                  onChange={this.handleWritePassword.bind(this)}
+                  />
                 <br />
                 <br />
 
-              <RaisedButton 
-                label="SIGN UP" primary={true} 
-                onClick={this.handleJoin.bind(this)}
-              />
-              &nbsp;&nbsp;
-              <RaisedButton 
-                label="SIGN IN" secondary={true}  
-                onClick={this.handleLogin.bind(this)}
-              />
+                <RaisedButton 
+                  label="회원가입" primary={true} 
+                  onClick={this.handleJoin.bind(this)}
+                />
+                &nbsp;&nbsp;
+                <RaisedButton 
+                  label="로그인" secondary={true}  
+                  onClick={this.handleLogin.bind(this)}
+                />
 
-            </div>;
+              </div>;
     }
     else if (windowType=='view') {
       DDAY = <View 
@@ -184,6 +190,7 @@ export default class Dday extends Component {
       DDAY = <Adder 
         ddayList={this.state.ddayList}
         onDelete={this.handelDdayDel.bind(this)}
+        onResetState={this.handleResetState.bind(this)}
         onSave={this.handelDdaySave.bind(this)}
       />
     }
@@ -193,7 +200,19 @@ export default class Dday extends Component {
     return (
       <div>
         {DDAY}
+
+        <Dialog
+          actions={alertActionOk}
+          modal={false}
+          open={(this.state.alertMessage)?true:false}
+          onRequestClose={this.handleAlertClose.bind(this)}
+        >
+          {this.state.alertMessage}
+        </Dialog>
+
       </div>
+
+
     );
   }
 }
