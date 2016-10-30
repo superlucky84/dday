@@ -1,0 +1,39 @@
+{
+  "name": "DDAY",
+  "version": "0.0.0",
+  "main": "main.js",
+  "scripts": {
+    "electron": "./node_modules/.bin/electron .",
+    "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
+    "pack:win64": "electron-packager . DDAY --out=packing --platform=win32 --arch=x64 --version=0.0.1 app-version=0.0.1 --icon=assets/build/win/icon.ico",
+    "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns DDAY"
+  },
+  "dependencies": {
+    "electron": "^1.4.4",
+    "firebase": "^3.5.1",
+    "material-ui": "^0.16.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-motion": "^0.4.5",
+    "react-swipeable-views": "^0.7.10",
+    "react-tap-event-plugin": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "electron-installer-dmg": "^0.1.2",
+    "electron-packager": "^8.1.0",
+    "electron-winstaller": "^2.3.4",
+    "eslint": "^3.8.1",
+    "eslint-cli": "^1.1.0",
+    "eslint-plugin-react": "^6.4.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-util": "^3.0.7",
+    "webpack": "^1.13.2"
+  }
+}
