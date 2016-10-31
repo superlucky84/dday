@@ -147,6 +147,11 @@ export default class Dday extends Component {
   handleWindowClose() {
     ipcRenderer.send('closeApp',{});
   }
+  handlePassEnter(event) {
+    if (event.keyCode == 13) {
+      this.handleLogin();
+    }
+  }
 
 
   render() {
@@ -178,6 +183,7 @@ export default class Dday extends Component {
                   floatingLabelText="PASSWORD"
                   errorText={this.state.passwordError}
                   type="password"
+                  onKeyDown={this.handlePassEnter.bind(this)}
                   onFocus={this.handlePasswordFocus.bind(this)}
                   onChange={this.handleWritePassword.bind(this)}
                   />
