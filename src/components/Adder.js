@@ -242,7 +242,7 @@ export default class Adder extends Component {
               }
               rightIconButton={
                 <IconButton 
-                  tooltip="bottom-left" 
+                  tooltip="delete" 
                   tooltipPosition="bottom-left" 
                   onClick={this.handleDelete.bind(this, key)}
                 >

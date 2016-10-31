@@ -316,7 +316,7 @@ var Adder = function (_Component) {
               rightIconButton: _react2.default.createElement(
                 _IconButton2.default,
                 {
-                  tooltip: 'bottom-left',
+                  tooltip: 'delete',
                   tooltipPosition: 'bottom-left',
                   onClick: _this2.handleDelete.bind(_this2, key)
                 },
