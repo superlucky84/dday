@@ -47,6 +47,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var BindKeyboardSwipeableViews = (0, _bindKeyboard2.default)(_reactSwipeableViews2.default);
 var AutoPlaySwipeableViews = (0, _autoPlay2.default)(_reactSwipeableViews2.default);
 
+function _bindingPointer(event) {
+
+  var page = this.state.page;
+
+  if (this.totalDdayCount <= 1) {
+    return false;
+  }
+
+  if (event.keyCode == 37) {
+    page--;
+    if (page < 0) {
+      page = this.totalDdayCount - 1;
+    }
+    this.setState({ page: page });
+  } else if (event.keyCode == 39) {
+    page++;
+    if (page + 1 > this.totalDdayCount) {
+      page = 0;
+    }
+    this.setState({ page: page });
+  }
+}
+
 var styles = {
   slide: {
     padding: 15,
@@ -79,6 +102,8 @@ var View = function (_Component) {
       init: false
     };
     _this.textInput = {};
+    _this.bindObj = null;
+
     return _this;
   }
 
@@ -96,7 +121,8 @@ var View = function (_Component) {
     key: 'handlePowerClick',
     value: function handlePowerClick() {
       this.setState({ page: 0 });
-      ipcRenderer.send('changeWindow', 'adder');
+      //ipcRenderer.send('changeWindow','adder');
+      this.props.onWindowChange();
     }
   }, {
     key: 'handleOnTop',
@@ -134,33 +160,22 @@ var View = function (_Component) {
       }
     }
   }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      document.body.removeEventListener('keydown', this.bindObj);
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
 
-      var page = this.state.page;
-      document.body.addEventListener('keydown', function (event) {
-
-        if (this.totalDdayCount <= 1) {
-          return false;
-        }
-
-        if (event.keyCode == 37) {
-          page--;
-          if (page < 0) {
-            page = this.totalDdayCount - 1;
-          }
-          this.setState({ page: page });
-        } else if (event.keyCode == 39) {
-          page++;
-          if (page + 1 > this.totalDdayCount) {
-            page = 0;
-          }
-          this.setState({ page: page });
-        }
-      }.bind(this));
-
+      this.bindObj = _bindingPointer.bind(this);
+      document.body.addEventListener('keydown', this.bindObj);
       this.totalDdayCount = Object.keys(this.props.ddayList).length;
+      this.resizeWidth();
     }
+  }, {
+    key: 'keyEvent',
+    value: function keyEvent(event) {}
   }, {
     key: 'render',
     value: function render() {

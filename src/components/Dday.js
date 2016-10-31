@@ -17,6 +17,7 @@ export default class Dday extends Component {
     super(props);
 
     this.state = {
+      windowType: 'add',
       login: true,
       id: '',
       password: '',
@@ -131,6 +132,17 @@ export default class Dday extends Component {
       ddayList: {'notload': {title:'',type:''}}
     });
   }
+  handleWindowChange() {
+
+    let windowType = 'view';
+    if (this.state.windowType == 'view') {
+      windowType = 'add';
+    }
+    
+    this.setState({windowType});
+
+    ipcRenderer.send('changeWindow',windowType);
+  }
 
 
   render() {
@@ -180,10 +192,12 @@ export default class Dday extends Component {
 
               </div>;
     }
-    else if (windowType=='view') {
+    //else if (windowType=='view') {
+    else if (this.state.windowType=='view') {
       DDAY = <View 
         className="view"
         ddayList={this.state.ddayList}
+        onWindowChange={this.handleWindowChange.bind(this)}
       />
     }
     else {
@@ -192,6 +206,7 @@ export default class Dday extends Component {
         onDelete={this.handelDdayDel.bind(this)}
         onResetState={this.handleResetState.bind(this)}
         onSave={this.handelDdaySave.bind(this)}
+        onWindowChange={this.handleWindowChange.bind(this)}
       />
     }
 

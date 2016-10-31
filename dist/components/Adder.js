@@ -87,8 +87,13 @@ var Adder = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Adder.__proto__ || Object.getPrototypeOf(Adder)).call(this, props));
 
+    var loading = false;
+    if (_this.props.ddayList['notload']) {
+      loading = true;
+    }
+
     _this.state = {
-      loading: true,
+      loading: loading,
       open: false,
       alertOpen: false,
       writeTitle: '',
@@ -238,12 +243,19 @@ var Adder = function (_Component) {
   }, {
     key: 'handlePowerClick',
     value: function handlePowerClick() {
-      ipcRenderer.send('changeWindow', 'view');
+      //ipcRenderer.send('changeWindow','view');
+      this.props.onWindowChange();
+    }
+  }, {
+    key: 'handleWindowClose',
+    value: function handleWindowClose() {
+      ipcRenderer.send('closeApp', {});
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(props) {
       if (!this.props.ddayList['notload'] && props.ddayList['notload']) {
+        //if (!this.props.ddayList['notload']) {
         this.setState({ loading: false });
       }
     }
@@ -278,6 +290,23 @@ var Adder = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'adder' },
+        _react2.default.createElement(
+          'div',
+          { className: 'header' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'JW-DDAY'
+          ),
+          _react2.default.createElement(
+            'span',
+            {
+              className: 'close',
+              onClick: this.handleWindowClose.bind(this)
+            },
+            'X'
+          )
+        ),
         this.state.loading ? _react2.default.createElement(
           'div',
           { style: { margin: 'auto', width: '65px', marginTop: "40%" } },
@@ -285,7 +314,9 @@ var Adder = function (_Component) {
         ) : null,
         _react2.default.createElement(
           _List.List,
-          null,
+          {
+            style: { padding: '0' }
+          },
           !(this.props.ddayList['empty'] || this.props.ddayList['notload']) ? Object.keys(this.props.ddayList).map(function (key, idx) {
             return _react2.default.createElement(_List.ListItem, {
               key: key,

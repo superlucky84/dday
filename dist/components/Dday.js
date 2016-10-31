@@ -51,6 +51,7 @@ var Dday = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Dday.__proto__ || Object.getPrototypeOf(Dday)).call(this, props));
 
     _this.state = {
+      windowType: 'add',
       login: true,
       id: '',
       password: '',
@@ -181,6 +182,19 @@ var Dday = function (_Component) {
       });
     }
   }, {
+    key: 'handleWindowChange',
+    value: function handleWindowChange() {
+
+      var windowType = 'view';
+      if (this.state.windowType == 'view') {
+        windowType = 'add';
+      }
+
+      this.setState({ windowType: windowType });
+
+      ipcRenderer.send('changeWindow', windowType);
+    }
+  }, {
     key: 'render',
     value: function render() {
 
@@ -224,19 +238,23 @@ var Dday = function (_Component) {
             onClick: this.handleLogin.bind(this)
           })
         );
-      } else if (windowType == 'view') {
-        DDAY = _react2.default.createElement(_View2.default, {
-          className: 'view',
-          ddayList: this.state.ddayList
-        });
-      } else {
-        DDAY = _react2.default.createElement(_Adder2.default, {
-          ddayList: this.state.ddayList,
-          onDelete: this.handelDdayDel.bind(this),
-          onResetState: this.handleResetState.bind(this),
-          onSave: this.handelDdaySave.bind(this)
-        });
       }
+      //else if (windowType=='view') {
+      else if (this.state.windowType == 'view') {
+          DDAY = _react2.default.createElement(_View2.default, {
+            className: 'view',
+            ddayList: this.state.ddayList,
+            onWindowChange: this.handleWindowChange.bind(this)
+          });
+        } else {
+          DDAY = _react2.default.createElement(_Adder2.default, {
+            ddayList: this.state.ddayList,
+            onDelete: this.handelDdayDel.bind(this),
+            onResetState: this.handleResetState.bind(this),
+            onSave: this.handelDdaySave.bind(this),
+            onWindowChange: this.handleWindowChange.bind(this)
+          });
+        }
 
       return _react2.default.createElement(
         'div',

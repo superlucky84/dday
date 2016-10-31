@@ -11,11 +11,37 @@ import autoPlay from 'react-swipeable-views/lib/autoPlay';
 
 import SwipeableViews from 'react-swipeable-views';
 
+import ViewItem from './ViewItem.js';
+
 
 const BindKeyboardSwipeableViews = bindKeyboard(SwipeableViews);
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-import ViewItem from './ViewItem.js';
+
+function _bindingPointer(event) {
+
+    let page = this.state.page;
+
+    if (this.totalDdayCount <= 1) {
+      return false;
+    }
+
+    if (event.keyCode == 37) {
+      page--;
+      if (page < 0) {
+        page = this.totalDdayCount - 1;
+      }
+      this.setState({page});
+    }
+    else if (event.keyCode == 39) {
+      page++;
+      if (page+1 > this.totalDdayCount) {
+        page = 0;
+      }
+      this.setState({page});
+    }
+
+}
 
 
 
@@ -48,6 +74,8 @@ export default class View extends Component {
       init: false
     };
     this.textInput= {};
+    this.bindObj = null;
+
   }
 
   changePage(idx) {
@@ -58,7 +86,8 @@ export default class View extends Component {
   }
   handlePowerClick() {
     this.setState({page: 0});
-    ipcRenderer.send('changeWindow','adder');
+    //ipcRenderer.send('changeWindow','adder');
+    this.props.onWindowChange();
   }
   handleOnTop() {
     ipcRenderer.send('onTop','top');
@@ -92,33 +121,19 @@ export default class View extends Component {
     }
   }
 
+  componentWillUnmount() {
+    document.body.removeEventListener('keydown',this.bindObj);
+  }
+
   componentDidMount() {
 
-
-    let page = this.state.page;
-    document.body.addEventListener('keydown',function(event) {
-
-      if (this.totalDdayCount <= 1) {
-        return false;
-      }
-
-      if (event.keyCode == 37) {
-        page--;
-        if (page < 0) {
-          page = this.totalDdayCount - 1;
-        }
-        this.setState({page});
-      }
-      else if (event.keyCode == 39) {
-        page++;
-        if (page+1 > this.totalDdayCount) {
-          page = 0;
-        }
-        this.setState({page});
-      }
-    }.bind(this));
-
+    this.bindObj = _bindingPointer.bind(this);
+    document.body.addEventListener('keydown',this.bindObj);
     this.totalDdayCount = Object.keys(this.props.ddayList).length;
+    this.resizeWidth();
+  }
+
+  keyEvent(event) {
 
   }
 

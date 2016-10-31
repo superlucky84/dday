@@ -31,8 +31,14 @@ export default class Adder extends Component {
   constructor(props,children) {
 
     super(props);
+
+    let loading = false;
+    if (this.props.ddayList['notload']) {
+      loading = true;
+    }
+
     this.state = {
-      loading: true,
+      loading: loading,
       open: false,
       alertOpen: false,
       writeTitle: '',
@@ -158,11 +164,16 @@ export default class Adder extends Component {
   }
 
   handlePowerClick() {
-    ipcRenderer.send('changeWindow','view');
+    //ipcRenderer.send('changeWindow','view');
+    this.props.onWindowChange();
+  }
+  handleWindowClose() {
+    ipcRenderer.send('closeApp',{});
   }
 
   componentDidUpdate(props) {
     if (!this.props.ddayList['notload'] && props.ddayList['notload']) {
+    //if (!this.props.ddayList['notload']) {
       this.setState({loading: false});
     }
   }
@@ -204,6 +215,13 @@ export default class Adder extends Component {
 
     return (
       <div className="adder">
+      <div className="header">
+        <span className="title">JW-DDAY</span>
+        <span 
+          className="close"
+          onClick={this.handleWindowClose.bind(this)}
+        >X</span>
+      </div>
 
       {
         (this.state.loading)?
@@ -214,7 +232,9 @@ export default class Adder extends Component {
         null
       }
 
-      <List>
+      <List
+        style={{padding: '0'}}
+      >
       {
         (!(this.props.ddayList['empty'] || this.props.ddayList['notload'])) ?
           Object.keys(this.props.ddayList).map((key,idx) => (

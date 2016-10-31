@@ -24,6 +24,7 @@
       }
       .adder {
         background-color: #fff;
+        border-radius: 3px;
       }
 
 
@@ -32,6 +33,35 @@
       }
 
 
+      .header {
+        border-bottom: 1px solid #cdcdcd;
+        border-radius: 3px 3px 0 0;
+        height: 30px;
+        margin-bottom: -8px;
+        font-weight: bold;
+      }
+
+      .header > .title {
+        -webkit-app-region: drag;
+        display: inline-block;
+        margin-top: 5px;
+        padding-left: 17px;
+        font-size: 17px;
+        width: calc(100% - 55px);
+      }
+
+      .header > .close {
+
+        /* padding-right: 17px; */
+        width: 12px;
+        display: inline-block;
+        float: right;
+        /* padding-right: 17px; */
+        cursor: pointer;
+        text-align: center;
+        padding: 0 9px;
+        margin-top: 5px;
+      }
 
       .dragarea {
         -webkit-app-region: drag;
@@ -76,6 +106,15 @@
         color: #cdcdcd;
         border: 1px solid brown;
         opacity: 0.5;
+      }
+
+      .adder {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background-color: #fff;
       }
 
 

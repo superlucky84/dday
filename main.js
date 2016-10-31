@@ -12,7 +12,9 @@ function createWindow () {
     width: 570,
     height: 590,
     resizable: false,
-    frame: true,
+    transparent: true,
+    //backgroundColor: '#fff',
+    frame: false,
     toolbar: false
   });
 
@@ -23,24 +25,15 @@ function createWindow () {
     win = null;
   });
 
-
-  viewWin = new BrowserWindow({
-    width: 500,
-    height: 50,
-    resizable: false,
-    transparent: true,
-    frame: false,
-    toolbar: false,
-    show: false
-  });
-
-  viewWin.loadURL(`file://${__dirname}/index.html?type=view`);
-  //viewWin.webContents.openDevTools();
-
 }
 
-function changeWindow (aa,target) {
+function changeWindow (obj,target) {
 
+  if (target == 'add') {
+    win.setSize(570,590);
+  }
+
+  /*
   if (target == 'view') {
     win.hide();
     viewWin.show();
@@ -49,26 +42,25 @@ function changeWindow (aa,target) {
     win.show();
     viewWin.hide();
   }
+  */
 }
 
 
 function closeApp() {
-  //if (process.platform !== 'darwin') {
-    app.quit();
-  //}
+  app.quit();
 }
 function onTop() {
 
-  if (viewWin.isAlwaysOnTop()) {
-    viewWin.setAlwaysOnTop(false);
+  if (win.isAlwaysOnTop()) {
+    win.setAlwaysOnTop(false);
   }
   else {
-    viewWin.setAlwaysOnTop(true);
+    win.setAlwaysOnTop(true);
   }
 }
 
 function resizeWidth(browser, width) {
-  viewWin.setSize(width,50);
+  win.setSize(width,50);
 }
 
 ipcMain.on('changeWindow', changeWindow);
