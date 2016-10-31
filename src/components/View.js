@@ -94,8 +94,14 @@ export default class View extends Component {
 
   componentDidMount() {
 
+
     let page = this.state.page;
     document.body.addEventListener('keydown',function(event) {
+
+      if (this.totalDdayCount <= 1) {
+        return false;
+      }
+
       if (event.keyCode == 37) {
         page--;
         if (page < 0) {
@@ -111,6 +117,8 @@ export default class View extends Component {
         this.setState({page});
       }
     }.bind(this));
+
+    this.totalDdayCount = Object.keys(this.props.ddayList).length;
 
   }
 

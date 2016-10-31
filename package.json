@@ -1,11 +1,12 @@
 {
   "name": "DDAY",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "productName": "JW-DDAY",
   "main": "main.js",
   "scripts": {
     "electron": "./node_modules/.bin/electron .",
     "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
-    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico",
+    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --prune",
     "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns JW-DDAY"
   },
   "dependencies": {

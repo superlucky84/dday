@@ -139,6 +139,11 @@ var View = function (_Component) {
 
       var page = this.state.page;
       document.body.addEventListener('keydown', function (event) {
+
+        if (this.totalDdayCount <= 1) {
+          return false;
+        }
+
         if (event.keyCode == 37) {
           page--;
           if (page < 0) {
@@ -153,6 +158,8 @@ var View = function (_Component) {
           this.setState({ page: page });
         }
       }.bind(this));
+
+      this.totalDdayCount = Object.keys(this.props.ddayList).length;
     }
   }, {
     key: 'render',
