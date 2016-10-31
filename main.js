@@ -11,14 +11,16 @@ let viewWin;
 function createWindow () {
   // Create the browser window.
   win = new BrowserWindow({
+    title: 'JW-DDAY',
     width: 570,
     height: 590,
     resizable: false,
     transparent: true,
-    //backgroundColor: '#fff',
     frame: false,
     toolbar: false
   });
+
+  win.setTitle('JW-DDAY');
 
   win.loadURL(`file://${__dirname}/index.html?type=add`);
   //win.webContents.openDevTools();
