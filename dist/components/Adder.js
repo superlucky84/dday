@@ -247,11 +247,6 @@ var Adder = function (_Component) {
       this.props.onWindowChange();
     }
   }, {
-    key: 'handleWindowClose',
-    value: function handleWindowClose() {
-      ipcRenderer.send('closeApp', {});
-    }
-  }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(props) {
       if (!this.props.ddayList['notload'] && props.ddayList['notload']) {
@@ -290,23 +285,6 @@ var Adder = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'adder' },
-        _react2.default.createElement(
-          'div',
-          { className: 'header' },
-          _react2.default.createElement(
-            'span',
-            { className: 'title' },
-            'JW-DDAY'
-          ),
-          _react2.default.createElement(
-            'span',
-            {
-              className: 'close',
-              onClick: this.handleWindowClose.bind(this)
-            },
-            'X'
-          )
-        ),
         this.state.loading ? _react2.default.createElement(
           'div',
           { style: { margin: 'auto', width: '65px', marginTop: "40%" } },

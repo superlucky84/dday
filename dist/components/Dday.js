@@ -195,6 +195,11 @@ var Dday = function (_Component) {
       ipcRenderer.send('changeWindow', windowType);
     }
   }, {
+    key: 'handleWindowClose',
+    value: function handleWindowClose() {
+      ipcRenderer.send('closeApp', {});
+    }
+  }, {
     key: 'render',
     value: function render() {
 
@@ -208,7 +213,7 @@ var Dday = function (_Component) {
       if (this.state.login === false) {
         DDAY = _react2.default.createElement(
           'div',
-          { style: { padding: "70px", textAlign: 'center' } },
+          { id: 'login' },
           _react2.default.createElement(_TextField2.default, {
             style: { width: '100%' },
             hintText: '\uC774\uBA54\uC77C \uC785\uB825',
@@ -259,6 +264,23 @@ var Dday = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
+        this.state.windowType != 'view' ? _react2.default.createElement(
+          'div',
+          { className: 'header' },
+          _react2.default.createElement(
+            'span',
+            { className: 'title' },
+            'JW-DDAY'
+          ),
+          _react2.default.createElement(
+            'span',
+            {
+              className: 'close',
+              onClick: this.handleWindowClose.bind(this)
+            },
+            'X'
+          )
+        ) : null,
         DDAY,
         _react2.default.createElement(
           _Dialog2.default,

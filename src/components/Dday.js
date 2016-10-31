@@ -144,6 +144,10 @@ export default class Dday extends Component {
     ipcRenderer.send('changeWindow',windowType);
   }
 
+  handleWindowClose() {
+    ipcRenderer.send('closeApp',{});
+  }
+
 
   render() {
 
@@ -158,7 +162,7 @@ export default class Dday extends Component {
 
     let DDAY = null;
     if (this.state.login === false) {
-      DDAY = <div style={{padding: "70px", textAlign: 'center'}}>
+      DDAY = <div id="login">
                 <TextField
                   style={{width: '100%'}}
                   hintText="이메일 입력"
@@ -214,6 +218,18 @@ export default class Dday extends Component {
 
     return (
       <div>
+
+        {
+        (this.state.windowType!='view')?
+          <div className="header">
+            <span className="title">JW-DDAY</span>
+            <span 
+              className="close"
+              onClick={this.handleWindowClose.bind(this)}
+            >X</span>
+          </div>: null
+        }
+
         {DDAY}
 
         <Dialog

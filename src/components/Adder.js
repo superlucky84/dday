@@ -167,9 +167,6 @@ export default class Adder extends Component {
     //ipcRenderer.send('changeWindow','view');
     this.props.onWindowChange();
   }
-  handleWindowClose() {
-    ipcRenderer.send('closeApp',{});
-  }
 
   componentDidUpdate(props) {
     if (!this.props.ddayList['notload'] && props.ddayList['notload']) {
@@ -215,13 +212,6 @@ export default class Adder extends Component {
 
     return (
       <div className="adder">
-      <div className="header">
-        <span className="title">JW-DDAY</span>
-        <span 
-          className="close"
-          onClick={this.handleWindowClose.bind(this)}
-        >X</span>
-      </div>
 
       {
         (this.state.loading)?

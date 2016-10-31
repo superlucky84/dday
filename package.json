@@ -6,7 +6,7 @@
   "scripts": {
     "electron": "./node_modules/.bin/electron .",
     "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
-    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --prune",
+    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --prune --force --overwrite",
     "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns JW-DDAY"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "react-dom": "^15.3.2",
     "react-motion": "^0.4.5",
     "react-swipeable-views": "^0.7.10",
+    "electron-squirrel-startup": "^1.0.0",
     "react-tap-event-plugin": "^1.0.0"
   },
   "devDependencies": {
