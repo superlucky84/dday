@@ -6,8 +6,12 @@
   "scripts": {
     "electron": "./node_modules/.bin/electron .",
     "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
-    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --prune --force --overwrite",
+    "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --version-string.CompanyName='Superlucky Inc.' --version-string.ProductName='JW-DDAY' --version-string.OriginalFilename='JW-DDAY.exe' --version-string.FileDescription='JW-DDAY' --prune --force --overwrite",
     "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns JW-DDAY"
+
+    
+
+
   },
   "dependencies": {
     "electron": "^1.4.4",
