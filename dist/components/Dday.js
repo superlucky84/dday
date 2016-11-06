@@ -100,9 +100,15 @@ var Dday = function (_Component) {
 
       this.database.ref('users/' + this.state.id.replace(/\./g, '|') + '/dday').on('value', function (snapshot) {
         if (snapshot.val()) {
-          _this3.setState({ ddayList: snapshot.val() });
+          _this3.setState({
+            ddayList: snapshot.val(),
+            windowType: 'view'
+          });
         } else {
-          _this3.setState({ ddayList: { 'empty': { title: '', type: '' } } });
+          _this3.setState({
+            ddayList: { 'empty': { title: '', type: '' } },
+            windowType: 'add'
+          });
         }
       });
     }

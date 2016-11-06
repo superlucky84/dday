@@ -61,10 +61,16 @@ export default class Dday extends Component {
   loadList() {
     this.database.ref(`users/${this.state.id.replace(/\./g,'|')}/dday`).on('value', (snapshot) => {
       if (snapshot.val()) {
-        this.setState({ddayList: snapshot.val()});
+        this.setState({
+          ddayList: snapshot.val(),
+          windowType: 'view'
+        });
       }
       else {
-        this.setState({ddayList: {'empty': {title:'',type:''}}});
+        this.setState({
+          ddayList: {'empty': {title:'',type:''}},
+          windowType: 'add'
+        });
       }
     });
   }
