@@ -9,12 +9,24 @@ if (require('electron-squirrel-startup')) return;
 let win;
 let viewWin;
 let tray;
+let path;
 
+
+if (process.platform=='win32') {
+  path = process.env['LOCALAPPDATA']+"\\JW\\app-0.0.1\\JW-DDAY.exe";
+}
+
+if (process.platform=='darwin') {
+  path = '/Applications/JW-DDAY.app';
+}
 
 var minecraftAutoLauncher = new AutoLaunch({
     name: 'Minecraft',
-    path: '/Applications/JW-DDAY.app',
+    path: path
 });
+
+
+
  
 //minecraftAutoLauncher.enable();
  
@@ -86,7 +98,7 @@ function changeWindow (obj,target) {
 
 
 function closeApp() {
-  app.hide();
+  app.quit();
 }
 function onTop() {
 
