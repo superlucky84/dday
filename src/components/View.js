@@ -75,7 +75,6 @@ export default class View extends Component {
     };
     this.textInput= {};
     this.bindObj = null;
-
   }
 
   changePage(idx) {
@@ -85,16 +84,16 @@ export default class View extends Component {
     ipcRenderer.send('closeApp',{});
   }
   handlePowerClick() {
-    this.setState({page: 0});
-    //ipcRenderer.send('changeWindow','adder');
+    this.setState({page: 0, ontop: false});
+    ipcRenderer.send('onTop',false);
     this.props.onWindowChange();
   }
   handleOnTop() {
-    ipcRenderer.send('onTop','top');
     let ontop = true;
     if (this.state.ontop) {
       ontop = false;
     }
+    ipcRenderer.send('onTop',ontop);
     this.setState({ontop});
   }
 

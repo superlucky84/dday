@@ -103,7 +103,6 @@ var View = function (_Component) {
     };
     _this.textInput = {};
     _this.bindObj = null;
-
     return _this;
   }
 
@@ -120,18 +119,18 @@ var View = function (_Component) {
   }, {
     key: 'handlePowerClick',
     value: function handlePowerClick() {
-      this.setState({ page: 0 });
-      //ipcRenderer.send('changeWindow','adder');
+      this.setState({ page: 0, ontop: false });
+      ipcRenderer.send('onTop', false);
       this.props.onWindowChange();
     }
   }, {
     key: 'handleOnTop',
     value: function handleOnTop() {
-      ipcRenderer.send('onTop', 'top');
       var ontop = true;
       if (this.state.ontop) {
         ontop = false;
       }
+      ipcRenderer.send('onTop', ontop);
       this.setState({ ontop: ontop });
     }
   }, {

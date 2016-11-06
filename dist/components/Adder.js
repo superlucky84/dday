@@ -91,20 +91,27 @@ var Adder = function (_Component) {
     if (_this.props.ddayList['notload']) {
       loading = true;
     }
+    _this.defaulttime = new Date();
+    _this.defaulttime.setMinutes(0);
+    _this.defaulttime.setHours(0);
 
     _this.state = {
       loading: loading,
       open: false,
       alertOpen: false,
       writeTitle: '',
-      writeDate: '',
-      writeTime: '',
+      writeDate: _this.getDate(),
+      writeTime: '00:00',
       writeTitleRequire: false,
       writeDateRequire: false,
       writeTimeRequire: false,
-      writeType: 'primary'
+      writeType: 'primary',
+      defaultTitle: '',
+      defaultTime: _this.defaulttime
     };
     _this.deleteKey = 0;
+    _this.modifyKey = 0;
+
     return _this;
   }
 
@@ -129,15 +136,18 @@ var Adder = function (_Component) {
         return;
       }
 
+      this.modifyKey = 0;
       this.setState({
         open: true,
         writeTitle: '',
-        writeDate: '',
-        writeTime: '',
+        writeDate: this.getDate(),
+        writeTime: '00:00',
         writeTitleRequire: false,
         writeDateRequire: false,
         writeTimeRequire: false,
-        writeType: 'primary'
+        writeType: 'primary',
+        defaultTitle: '',
+        defaultTime: this.defaulttime
       });
 
       setTimeout(function () {
@@ -185,12 +195,19 @@ var Adder = function (_Component) {
 
       // 저장 시키자
       if (save) {
-        this.props.onSave({
+
+        var action = this.props.onSave;
+        if (this.modifyKey != 0) {
+          action = this.props.onModify;
+        }
+
+        action({
           title: this.state.writeTitle,
           date: this.state.writeDate,
           time: this.state.writeTime,
           type: this.state.writeType
-        });
+        }, this.modifyKey);
+
         this.handleClose();
       }
     }
@@ -198,6 +215,16 @@ var Adder = function (_Component) {
     key: 'handleWriteTitle',
     value: function handleWriteTitle(event) {
       this.setState({ writeTitle: event.target.value });
+    }
+  }, {
+    key: 'getDate',
+    value: function getDate() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      var fullName = year + '-' + month + '-' + day;
+      return fullName;
     }
   }, {
     key: 'handleWriteDate',
@@ -241,6 +268,32 @@ var Adder = function (_Component) {
       this.setState({ alertOpen: "DELETE OK?" });
     }
   }, {
+    key: 'handleModify',
+    value: function handleModify(key) {
+      var _this2 = this;
+
+      this.modifyKey = key;
+      this.setState({
+        open: true,
+        writeTitle: this.props.ddayList[key].title,
+        writeDate: this.props.ddayList[key].date,
+        writeTime: this.props.ddayList[key].time,
+        writeTitleRequire: false,
+        writeDateRequire: false,
+        writeTimeRequire: false,
+        writeType: this.props.ddayList[key].type,
+        defaultTitle: this.props.ddayList[key].title,
+        defaultTime: new Date(this.props.ddayList[key].date + " " + this.props.ddayList[key].time)
+      });
+
+      setTimeout(function () {
+        //document.getElementById("emailField").value = this.props.ddayList[key].title;
+        //document.getElementById("dateField").value = this.props.ddayList[key].date;
+        //document.getElementById("timeField").value = this.props.ddayList[key].time;
+        document.querySelector("input[name=shipSpeed][value=" + _this2.props.ddayList[key].type + "]").click();
+      }, 0);
+    }
+  }, {
     key: 'handlePowerClick',
     value: function handlePowerClick() {
       //ipcRenderer.send('changeWindow','view');
@@ -257,7 +310,7 @@ var Adder = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var actions = [_react2.default.createElement(_FlatButton2.default, {
         label: 'Ok',
@@ -296,37 +349,63 @@ var Adder = function (_Component) {
             style: { padding: '0' }
           },
           !(this.props.ddayList['empty'] || this.props.ddayList['notload']) ? Object.keys(this.props.ddayList).map(function (key, idx) {
-            return _react2.default.createElement(_List.ListItem, {
-              key: key,
-              style: { borderBottom: "1px solid #cdcdcd" },
-              primaryText: _this2.props.ddayList[key].title,
-              secondaryText: _react2.default.createElement(
-                'p',
-                null,
-                _react2.default.createElement(
-                  'span',
-                  { style: { color: _colors.darkBlack } },
-                  _this2.props.ddayList[key].date,
-                  ' ',
-                  _this2.props.ddayList[key].time
-                ),
-                '\xA0- ',
-                _this2.props.ddayList[key].type.toUpperCase()
-              ),
-              rightIconButton: _react2.default.createElement(
-                _IconButton2.default,
+            return _react2.default.createElement(
+              _List.ListItem,
+              {
+                key: key,
+                style: { borderBottom: "1px solid #cdcdcd" },
+                primaryText: _this3.props.ddayList[key].title,
+                secondaryText: _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement(
+                    'span',
+                    { style: { color: _colors.darkBlack } },
+                    _this3.props.ddayList[key].date,
+                    ' ',
+                    _this3.props.ddayList[key].time
+                  ),
+                  '\xA0- ',
+                  _this3.props.ddayList[key].type.toUpperCase()
+                )
+              },
+              _react2.default.createElement(
+                'div',
                 {
-                  tooltip: 'delete',
-                  tooltipPosition: 'bottom-left',
-                  onClick: _this2.handleDelete.bind(_this2, key)
+                  style: {
+                    position: "absolute",
+                    right: "30px",
+                    bottom: "13px"
+                  }
                 },
                 _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'delete'
+                  _IconButton2.default,
+                  {
+                    tooltip: 'modify',
+                    tooltipPosition: 'bottom-left',
+                    onClick: _this3.handleModify.bind(_this3, key)
+                  },
+                  _react2.default.createElement(
+                    'i',
+                    { className: 'material-icons' },
+                    'edit'
+                  )
+                ),
+                _react2.default.createElement(
+                  _IconButton2.default,
+                  {
+                    tooltip: 'delete',
+                    tooltipPosition: 'bottom-left',
+                    onClick: _this3.handleDelete.bind(_this3, key)
+                  },
+                  _react2.default.createElement(
+                    'i',
+                    { className: 'material-icons' },
+                    'delete'
+                  )
                 )
               )
-            });
+            );
           }) : null,
           this.props.ddayList['empty'] ? _react2.default.createElement(
             'div',
@@ -376,18 +455,23 @@ var Adder = function (_Component) {
           _react2.default.createElement(_TextField2.default, {
             id: 'emailField',
             hintText: 'JW BIRTHDAY',
+            defaultValue: this.state.defaultTitle,
             errorText: this.state.writeTitleRequire,
             onFocus: this.handleTitleFocus.bind(this),
             onChange: this.handleWriteTitle.bind(this)
           }),
           _react2.default.createElement(_DatePicker2.default, {
+            id: 'dateField',
             hintText: '1984-05-10',
+            defaultDate: this.state.defaultTime,
             errorText: this.state.writeDateRequire,
             onFocus: this.handleDateFocus.bind(this),
             onChange: this.handleWriteDate.bind(this)
           }),
           _react2.default.createElement(_TimePicker2.default, {
+            id: 'timeField',
             hintText: '10:10 am',
+            defaultTime: this.state.defaultTime,
             errorText: this.state.writeTimeRequire,
             onFocus: this.handleTimeFocus.bind(this),
             onChange: this.handleWriteTime.bind(this)
@@ -395,6 +479,7 @@ var Adder = function (_Component) {
           _react2.default.createElement(
             _RadioButton.RadioButtonGroup,
             {
+              id: 'shipSpeed',
               name: 'shipSpeed',
               defaultSelected: 'primary',
               onChange: this.handleChangeType.bind(this),
@@ -408,7 +493,7 @@ var Adder = function (_Component) {
             _react2.default.createElement(_RadioButton.RadioButton, {
               value: 'recycle',
               label: '\uD68C\uB144\uACC4\uC0B0',
-              style: { marginBottom: 16, float: 'left', width: '40%' }
+              style: { marginBottom: 16, float: 'left', width: '47%' }
             })
           )
         ),

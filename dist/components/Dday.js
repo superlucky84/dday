@@ -117,6 +117,11 @@ var Dday = function (_Component) {
       this.database.ref('users/' + this.state.id.replace(/\./g, '|') + '/dday').push(saveObj);
     }
   }, {
+    key: 'handelDdayModify',
+    value: function handelDdayModify(saveObj, modifyKey) {
+      this.database.ref('users/' + this.state.id.replace(/\./g, '|') + '/dday/' + modifyKey).set(saveObj);
+    }
+  }, {
     key: 'handleLogin',
     value: function handleLogin() {
       var _this4 = this;
@@ -265,6 +270,7 @@ var Dday = function (_Component) {
             onDelete: this.handelDdayDel.bind(this),
             onResetState: this.handleResetState.bind(this),
             onSave: this.handelDdaySave.bind(this),
+            onModify: this.handelDdayModify.bind(this),
             onWindowChange: this.handleWindowChange.bind(this)
           });
         }

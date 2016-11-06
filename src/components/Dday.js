@@ -75,6 +75,9 @@ export default class Dday extends Component {
   handelDdaySave(saveObj) {
     this.database.ref(`users/${this.state.id.replace(/\./g,'|')}/dday`).push(saveObj);
   }
+  handelDdayModify(saveObj, modifyKey) {
+    this.database.ref(`users/${this.state.id.replace(/\./g,'|')}/dday/${modifyKey}`).set(saveObj);
+  }
 
   handleLogin() {
 
@@ -216,6 +219,7 @@ export default class Dday extends Component {
         onDelete={this.handelDdayDel.bind(this)}
         onResetState={this.handleResetState.bind(this)}
         onSave={this.handelDdaySave.bind(this)}
+        onModify={this.handelDdayModify.bind(this)}
         onWindowChange={this.handleWindowChange.bind(this)}
       />
     }

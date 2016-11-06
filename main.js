@@ -11,37 +11,23 @@ let viewWin;
 let tray;
 let path;
 
-
 if (process.platform=='win32') {
   path = process.env['LOCALAPPDATA']+"\\JW\\app-0.0.1\\JW-DDAY.exe";
 }
-
 if (process.platform=='darwin') {
   path = '/Applications/JW-DDAY.app';
 }
-
 var minecraftAutoLauncher = new AutoLaunch({
-    name: 'Minecraft',
+    name: 'JW-DDAY',
     path: path
 });
-
-
-
- 
-//minecraftAutoLauncher.enable();
- 
-//minecraftAutoLauncher.disable(); 
- 
- 
-minecraftAutoLauncher.isEnabled()
-.then(function(isEnabled){
+minecraftAutoLauncher.isEnabled().then(function(isEnabled){
     if(isEnabled){
         return;
     }
     minecraftAutoLauncher.enable();
 })
-.catch(function(err){
-    // handle error 
+.catch(function(err){ // handle error 
 });
 
 
@@ -59,9 +45,9 @@ function createWindow () {
 
   win = new BrowserWindow({
     title: 'JW-DDAY',
-    width: 570,
-    height: 590,
-    resizable: false,
+    width: 440,
+    height: 550,
+    resizable: true,
     transparent: true,
     frame: false,
     toolbar: false
@@ -79,35 +65,30 @@ function createWindow () {
 }
 
 function changeWindow (obj,target) {
-
   if (target == 'add') {
     win.setSize(570,590);
   }
-
-  /*
-  if (target == 'view') {
-    win.hide();
-    viewWin.show();
-  }
-  else {
-    win.show();
-    viewWin.hide();
-  }
-  */
 }
 
 
 function closeApp() {
-  app.quit();
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+  else {
+    app.hide();
+  }
 }
-function onTop() {
-
+function onTop(browser, setttingTop) {
+  /*
   if (win.isAlwaysOnTop()) {
     win.setAlwaysOnTop(false);
   }
   else {
     win.setAlwaysOnTop(true);
   }
+  */
+  win.setAlwaysOnTop(setttingTop);
 }
 
 function resizeWidth(browser, width) {

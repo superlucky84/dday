@@ -36,20 +36,27 @@ export default class Adder extends Component {
     if (this.props.ddayList['notload']) {
       loading = true;
     }
+    this.defaulttime = new Date();
+    this.defaulttime.setMinutes(0);
+    this.defaulttime.setHours(0);
 
     this.state = {
       loading: loading,
       open: false,
       alertOpen: false,
       writeTitle: '',
-      writeDate: '',
-      writeTime: '',
+      writeDate: this.getDate(),
+      writeTime: '00:00',
       writeTitleRequire: false,
       writeDateRequire: false,
       writeTimeRequire: false,
-      writeType: 'primary'
+      writeType: 'primary',
+      defaultTitle: '',
+      defaultTime: this.defaulttime
     };
     this.deleteKey = 0;
+    this.modifyKey = 0;
+
   }
 
   componentWillUnmount() {
@@ -69,15 +76,19 @@ export default class Adder extends Component {
       return;
     }
 
+
+    this.modifyKey = 0;
     this.setState({ 
       open: true,
       writeTitle: '',
-      writeDate: '',
-      writeTime: '',
+      writeDate: this.getDate(),
+      writeTime: '00:00',
       writeTitleRequire: false,
       writeDateRequire: false,
       writeTimeRequire: false,
-      writeType: 'primary'
+      writeType: 'primary',
+      defaultTitle: '',
+      defaultTime: this.defaulttime
     });
 
     setTimeout(() => {
@@ -121,18 +132,34 @@ export default class Adder extends Component {
 
     // 저장 시키자
     if (save) {
-      this.props.onSave({
+
+      let action = this.props.onSave;
+      if (this.modifyKey != 0) {
+        action = this.props.onModify;
+      }
+
+      action({
         title: this.state.writeTitle,
         date: this.state.writeDate,
         time: this.state.writeTime,
         type: this.state.writeType,
-      });
+      },this.modifyKey);
+
       this.handleClose();
     }
   }
 
   handleWriteTitle(event) {
     this.setState({writeTitle: event.target.value});
+  }
+
+  getDate() {
+    let date = new Date();
+    let year = date.getFullYear();
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    let fullName = `${year}-${month}-${day}`;
+    return fullName;
   }
 
   handleWriteDate(event, date) {
@@ -161,6 +188,32 @@ export default class Adder extends Component {
   handleDelete(key) {
     this.deleteKey = key;
     this.setState({alertOpen: "DELETE OK?"});
+  }
+  handleModify(key) {
+
+    this.modifyKey = key;
+    this.setState({ 
+      open: true,
+      writeTitle: this.props.ddayList[key].title,
+      writeDate: this.props.ddayList[key].date,
+      writeTime: this.props.ddayList[key].time,
+      writeTitleRequire: false,
+      writeDateRequire: false,
+      writeTimeRequire: false,
+      writeType: this.props.ddayList[key].type,
+      defaultTitle: this.props.ddayList[key].title,
+      defaultTime: new Date(this.props.ddayList[key].date+" "+this.props.ddayList[key].time)
+    });
+
+    setTimeout(() => {
+      //document.getElementById("emailField").value = this.props.ddayList[key].title;
+      //document.getElementById("dateField").value = this.props.ddayList[key].date;
+      //document.getElementById("timeField").value = this.props.ddayList[key].time;
+      document.querySelector("input[name=shipSpeed][value="+this.props.ddayList[key].type+"]").click();
+
+
+    },0);
+
   }
 
   handlePowerClick() {
@@ -240,16 +293,30 @@ export default class Adder extends Component {
                   &nbsp;- {this.props.ddayList[key].type.toUpperCase()}
                 </p>
               }
-              rightIconButton={
-                <IconButton 
-                  tooltip="delete" 
-                  tooltipPosition="bottom-left" 
-                  onClick={this.handleDelete.bind(this, key)}
+            >
+                <div
+                  style={{
+                    position: "absolute",
+                    right: "30px",
+                    bottom: "13px"
+                  }}
                 >
-                  <i className="material-icons">delete</i>
-                </IconButton>
-              }
-            />
+                  <IconButton 
+                    tooltip="modify" 
+                    tooltipPosition="bottom-left" 
+                    onClick={this.handleModify.bind(this, key)}
+                  >
+                    <i className="material-icons">edit</i>
+                  </IconButton>
+                  <IconButton 
+                    tooltip="delete" 
+                    tooltipPosition="bottom-left" 
+                    onClick={this.handleDelete.bind(this, key)}
+                  >
+                    <i className="material-icons">delete</i>
+                  </IconButton>
+                </div>
+            </ListItem>
           ))
         : null
       }
@@ -305,24 +372,30 @@ export default class Adder extends Component {
          <TextField
           id="emailField"
           hintText="JW BIRTHDAY"
+          defaultValue={this.state.defaultTitle}
           errorText={this.state.writeTitleRequire}
           onFocus={this.handleTitleFocus.bind(this)}
           onChange={this.handleWriteTitle.bind(this)}
          />
          <DatePicker 
+           id="dateField"
            hintText="1984-05-10" 
+           defaultDate={this.state.defaultTime}
            errorText={this.state.writeDateRequire}
            onFocus={this.handleDateFocus.bind(this)}
            onChange={this.handleWriteDate.bind(this)}
          />
          <TimePicker
+           id="timeField"
            hintText="10:10 am"
+           defaultTime={this.state.defaultTime}
            errorText={this.state.writeTimeRequire}
            onFocus={this.handleTimeFocus.bind(this)}
            onChange={this.handleWriteTime.bind(this)}
          />
 
         <RadioButtonGroup 
+          id="shipSpeed" 
           name="shipSpeed" 
           defaultSelected="primary" 
           onChange={this.handleChangeType.bind(this)}
@@ -336,7 +409,7 @@ export default class Adder extends Component {
           <RadioButton
             value="recycle"
             label="회년계산"
-            style={{marginBottom: 16, float: 'left', width: '40%'}}
+            style={{marginBottom: 16, float: 'left', width: '47%'}}
           />
         </RadioButtonGroup>
 
