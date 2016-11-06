@@ -47,7 +47,7 @@ function createWindow () {
     title: 'JW-DDAY',
     width: 440,
     height: 550,
-    resizable: true,
+    resizable: false,
     transparent: true,
     frame: false,
     toolbar: false
