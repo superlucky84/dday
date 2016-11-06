@@ -66,7 +66,7 @@ function createWindow () {
 
 function changeWindow (obj,target) {
   if (target == 'add') {
-    win.setSize(570,590);
+    win.setSize(440,550);
   }
 }
 
