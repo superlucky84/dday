@@ -1,5 +1,8 @@
-const {app, BrowserWindow, ipcMain, Menu, Tray} = require('electron');
+const {app, BrowserWindow, ipcMain, Menu, Tray, autoUpdater} = require('electron');
+
 let AutoLaunch = require('auto-launch');
+let os = require('os');
+//let autoUpdater = require('auto-updater');
 
 if (require('electron-squirrel-startup')) return;
 
@@ -10,6 +13,23 @@ let win;
 let viewWin;
 let tray;
 let path;
+
+console.log('VERSION',app.getVersion());
+
+
+//var platform = os.platform() + '_' + os.arch();
+var platform = os.platform();
+var version = app.getVersion();
+
+/*
+autoUpdater.setFeedURL('https://vi.superlucky.co.kr/jwdday/'+platform+'/'+version);
+autoUpdater
+  .on('checking-for-update', function(){console.log('Checking for update');})
+  .on('update-available', function(){console.log('Update available');})
+  .on('update-not-available', function(){console.log('Update not available');})
+  .on('update-downloaded', function(){console.log('Update downloaded');})
+  .checkForUpdates();
+*/
 
 if (process.platform=='win32') {
   path = process.env['LOCALAPPDATA']+"\\JW\\app-0.0.1\\JW-DDAY.exe";
@@ -37,8 +57,8 @@ function createWindow () {
 
   tray = new Tray(`${__dirname}/dday-tray.png`);
   const contextMenu = Menu.buildFromTemplate([
-    {label: 'Adder', type: 'radio', checked: true},
-    {label: 'Viewer', type: 'radio'}
+    //{label: 'Adder', type: 'radio', checked: true},
+    //{label: 'Viewer', type: 'radio'}
   ])
   tray.setToolTip('This is my application.')
   tray.setContextMenu(contextMenu)

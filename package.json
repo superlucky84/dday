@@ -5,13 +5,15 @@
   "main": "main.js",
   "scripts": {
     "electron": "./node_modules/.bin/electron .",
-    "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
+    "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns --prune",
     "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --version-string.CompanyName='Superlucky Inc.' --version-string.ProductName='JW-DDAY' --version-string.OriginalFilename='JW-DDAY.exe' --version-string.FileDescription='JW-DDAY' --prune --force --overwrite",
     "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns JW-DDAY"
   },
   "dependencies": {
     "auto-launch": "^5.0.1",
+    "auto-updater": "^1.0.2",
     "electron": "^1.4.4",
+    "electron-osx-sign": "^0.4.1",
     "electron-squirrel-startup": "^1.0.0",
     "firebase": "^3.5.1",
     "material-ui": "^0.16.1",
