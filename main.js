@@ -1,4 +1,5 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, Menu, Tray} = require('electron');
+let AutoLaunch = require('auto-launch');
 
 if (require('electron-squirrel-startup')) return;
 
@@ -7,9 +8,43 @@ if (require('electron-squirrel-startup')) return;
 
 let win;
 let viewWin;
+let tray;
+
+
+var minecraftAutoLauncher = new AutoLaunch({
+    name: 'Minecraft',
+    path: '/Applications/JW-DDAY.app',
+});
+ 
+//minecraftAutoLauncher.enable();
+ 
+//minecraftAutoLauncher.disable(); 
+ 
+ 
+minecraftAutoLauncher.isEnabled()
+.then(function(isEnabled){
+    if(isEnabled){
+        return;
+    }
+    minecraftAutoLauncher.enable();
+})
+.catch(function(err){
+    // handle error 
+});
+
 
 function createWindow () {
   // Create the browser window.
+  
+
+  tray = new Tray(`${__dirname}/dday-tray.png`);
+  const contextMenu = Menu.buildFromTemplate([
+    {label: 'Adder', type: 'radio', checked: true},
+    {label: 'Viewer', type: 'radio'}
+  ])
+  tray.setToolTip('This is my application.')
+  tray.setContextMenu(contextMenu)
+
   win = new BrowserWindow({
     title: 'JW-DDAY',
     width: 570,
@@ -51,7 +86,7 @@ function changeWindow (obj,target) {
 
 
 function closeApp() {
-  app.quit();
+  app.hide();
 }
 function onTop() {
 

@@ -8,20 +8,17 @@
     "pack:osx": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=darwin --arch=x64 --icon=dday.icns",
     "pack:win64": "./node_modules/.bin/electron-packager . JW-DDAY --out=packing --platform=win32 --arch=x64  --icon=dday.ico --version-string.CompanyName='Superlucky Inc.' --version-string.ProductName='JW-DDAY' --version-string.OriginalFilename='JW-DDAY.exe' --version-string.FileDescription='JW-DDAY' --prune --force --overwrite",
     "makedmg": "./node_modules/.bin/electron-installer-dmg packing/JW-DDAY-darwin-x64/JW-DDAY.app --icon=dday.icns JW-DDAY"
-
-    
-
-
   },
   "dependencies": {
+    "auto-launch": "^5.0.1",
     "electron": "^1.4.4",
+    "electron-squirrel-startup": "^1.0.0",
     "firebase": "^3.5.1",
     "material-ui": "^0.16.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-motion": "^0.4.5",
     "react-swipeable-views": "^0.7.10",
-    "electron-squirrel-startup": "^1.0.0",
     "react-tap-event-plugin": "^1.0.0"
   },
   "devDependencies": {
