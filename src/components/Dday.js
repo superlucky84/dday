@@ -238,7 +238,7 @@ export default class Dday extends Component {
         {
         (this.state.windowType!='view')?
           <div className="header">
-            <span className="title">JW-DDAY</span>
+            <span className="title">JW-DDAY <span style={{color: '#cdcdcd'}}>{version}</span></span>
             <span 
               className="close"
               onClick={this.handleWindowClose.bind(this)}

@@ -4,7 +4,7 @@ var options = {
     'platform': 'darwin',
     'dir': './',
     'app-copyright': 'Superlucky',
-    'app-version': '0.0.1',
+    'app-version': '1.1.0',
     'asar': true,
     'icon': './dday.icns',
     'name': 'JW-DDAY',
@@ -12,6 +12,7 @@ var options = {
     'out': './packing',
     'overwrite': true,
     'prune': true,
+    'osx-sign': true,
     'version-string':{
       'CompanyName': 'JW-DDAY',
       'FileDescription': 'JW-DDAY', /*This is what display windows on task manager, shortcut and process*/

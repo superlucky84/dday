@@ -192,12 +192,11 @@ export default class View extends Component {
           >f</button>
           <button
             onClick={this.handlePowerClick.bind(this)}
-          >o</button>
+          >a</button>
           <button
             onClick={this.closeApp.bind(this)}
           >x</button>
         </div>
-
       </div>
     )
   }

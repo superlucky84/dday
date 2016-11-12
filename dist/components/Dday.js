@@ -290,7 +290,12 @@ var Dday = function (_Component) {
           _react2.default.createElement(
             'span',
             { className: 'title' },
-            'JW-DDAY'
+            'JW-DDAY ',
+            _react2.default.createElement(
+              'span',
+              { style: { color: '#cdcdcd' } },
+              version
+            )
           ),
           _react2.default.createElement(
             'span',

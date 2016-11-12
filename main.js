@@ -2,6 +2,8 @@ const {app, BrowserWindow, ipcMain, Menu, Tray, autoUpdater} = require('electron
 
 let AutoLaunch = require('auto-launch');
 let os = require('os');
+//let log = require('electron-log');
+
 //let autoUpdater = require('auto-updater');
 
 if (require('electron-squirrel-startup')) return;
@@ -14,21 +16,22 @@ let viewWin;
 let tray;
 let path;
 
-console.log('VERSION',app.getVersion());
-
-
-//var platform = os.platform() + '_' + os.arch();
 var platform = os.platform();
 var version = app.getVersion();
 
-/*
 autoUpdater.setFeedURL('https://vi.superlucky.co.kr/jwdday/'+platform+'/'+version);
 autoUpdater
-  .on('checking-for-update', function(){console.log('Checking for update');})
-  .on('update-available', function(){console.log('Update available');})
-  .on('update-not-available', function(){console.log('Update not available');})
-  .on('update-downloaded', function(){console.log('Update downloaded');})
+  .on('update-downloaded', function(){
+    app.relaunch({args: process.argv.slice(1).concat(['--relaunch'])});
+    app.quit();
+  })
   .checkForUpdates();
+/*
+.on('checking-for-update', function(){ log.info('Checking for update:'); })
+.on('update-available', function(){ })
+.on('update-not-available', function(){log.info('Update not available');})
+.on('update-downloaded', function(){log.info('Update downloaded');})
+.checkForUpdates();
 */
 
 if (process.platform=='win32') {
@@ -75,7 +78,7 @@ function createWindow () {
 
   win.setTitle('JW-DDAY');
 
-  win.loadURL(`file://${__dirname}/index.html?type=add`);
+  win.loadURL(`file://${__dirname}/index.html?type=add&version=${version}`);
   //win.webContents.openDevTools();
 
   win.on('closed', () => {

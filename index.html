@@ -151,7 +151,7 @@
 
     const firebase = require('firebase');
     const {ipcRenderer} = require('electron');
-    const windowType = (location.search.match(/view$/))?'view':'add';
+    const version = location.search.match(/version=([^&?:]*)/)[1];
     const config = {
       apiKey: "AIzaSyCnKwawx2-QOisno-1kXG4tBSBpyzxC-wQ",
       authDomain: "dday-d3a16.firebaseapp.com",

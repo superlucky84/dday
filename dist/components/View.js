@@ -248,7 +248,7 @@ var View = function (_Component) {
             {
               onClick: this.handlePowerClick.bind(this)
             },
-            'o'
+            'a'
           ),
           _react2.default.createElement(
             'button',
