@@ -22,8 +22,7 @@ var version = app.getVersion();
 autoUpdater.setFeedURL('https://vi.superlucky.co.kr/jwdday/'+platform+'/'+version);
 autoUpdater
   .on('update-downloaded', function(){
-    app.relaunch({args: process.argv.slice(1).concat(['--relaunch'])});
-    app.quit();
+    win.webContents.send('alert', '업데이트가 설치되었습니다.\n\n재시작시 적용됩니다. ');
   })
   .checkForUpdates();
 /*

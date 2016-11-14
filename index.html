@@ -160,6 +160,9 @@
       messagingSenderId: "886570766098"
     };
     firebase.initializeApp(config);
+    ipcRenderer.on('alert',function(obj,message) {
+      alert(message);
+    });
 
   </script>
   <script src="dist/app.js"></script>
