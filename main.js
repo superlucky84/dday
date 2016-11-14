@@ -34,7 +34,7 @@ autoUpdater
 */
 
 if (process.platform=='win32') {
-  path = process.env['LOCALAPPDATA']+"\\JW\\app-0.0.1\\JW-DDAY.exe";
+  path = process.env['LOCALAPPDATA']+"\\jwdday\\app-0.0.1\\JW-DDAY.exe";
 }
 if (process.platform=='darwin') {
   path = '/Applications/JW-DDAY.app';

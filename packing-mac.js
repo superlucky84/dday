@@ -4,7 +4,7 @@ var options = {
     'platform': 'darwin',
     'dir': './',
     'app-copyright': 'Superlucky',
-    'app-version': '1.1.2',
+    'app-version': '1.1.3',
     'asar': true,
     'icon': './dday.icns',
     'name': 'JW-DDAY',

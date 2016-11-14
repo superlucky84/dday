@@ -4,7 +4,7 @@ var options = {
     'platform': 'win32',
     'dir': './',
     'app-copyright': 'Superlucky',
-    'app-version': '1.1.1',
+    'app-version': '1.1.3',
     'asar': true,
     'icon': './dday.ico',
     'name': 'JW-DDAY',
