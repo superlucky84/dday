@@ -1,7 +1,7 @@
 var packager = require('electron-packager');
 var options = {
     'arch': 'ia32',
-    'platform': 'win64',
+    'platform': 'win32',
     'dir': './',
     'app-copyright': 'Superlucky',
     'app-version': '1.1.1',

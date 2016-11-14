@@ -1,7 +1,7 @@
 var electronInstaller = require('electron-winstaller');
 
 resultPromise = electronInstaller.createWindowsInstaller({
-    appDirectory: './packing/JW-DDAY-win32-x64',
+    appDirectory: './packing/JW-DDAY-win32-ia32',
     outputDirectory: './packing/OUT',
     authors: 'JW-DDAY Inc.',
     exe: 'JW-DDAY.exe',
